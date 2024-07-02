@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Team_8.Contracts</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<Version>1.0.1.1</Version>
+	<PackageIcon>1684410334_polinka-top-p-znak-beskonechnosti-kartinki-krasivie-inst-63.jpg</PackageIcon>
+	<RepositoryUrl>https://github.com/Stepa28/Team-8</RepositoryUrl>
+	<RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\1684410334_polinka-top-p-znak-beskonechnosti-kartinki-krasivie-inst-63.jpg">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
