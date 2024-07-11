@@ -1,21 +1,27 @@
-var builder = WebApplication.CreateBuilder(args);
+using Api.Configurations;
+using Serilog;
 
-// Add services to the container.
+try
+{
+    var builder = WebApplication.CreateBuilder(args);
+    
+    Log.Logger = builder.AddLogger().ForContext<Program>();
+    
+    builder.Services.AddApiService();
+    builder.Services.AddServices(builder.Configuration);
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+    var app = builder.Build();
 
-var app = builder.Build();
-
-app.UseSwagger();
-app.UseSwaggerUI();
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
+    app.UseSwaggerSetup();
+    app.MapControllers();
+    app.Run();
+}
+catch(Exception ex)
+{
+    Log.Fatal(ex, "error message");
+}
+finally
+{
+    Log.Information("Выключение завершено");
+    await Log.CloseAndFlushAsync();
+}
