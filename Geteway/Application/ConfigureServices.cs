@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
 using Application.Common.Behaviors;
+using Application.Common.WebSocket;
+using Domain.Interfaces;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +16,8 @@ public static class ConfigureServices
 
         services.AddAutoMapper(executionAssembly);
         services.AddValidatorsFromAssembly(executionAssembly);
+        services.AddSingleton<IWebSocketConnections, WebSocketConnections>();
+        services.AddSingleton<IMessageQuery, MessageQuery>();
 
         services.AddMediatR(cfg =>
         {

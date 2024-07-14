@@ -7,4 +7,5 @@ public class ServiceOptions
     public string Battle { get; set; }
     public string Chat { get; set; }
     public string Room { get; set; }
+    public string Shema { get; set; }
 }

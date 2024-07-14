@@ -9,6 +9,5 @@ public static class ConfigureServices
     {
         services.AddInfrastructureServices(configuration);
         services.AddApplicationServices();
-        //services.AddKafkaCommonServices(configuration);
     }
 }

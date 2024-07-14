@@ -1,14 +1,11 @@
-using System.Reflection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Api.Managers;
-using Application.Common.Behaviors;
 using Domain.Interfaces;
-using FluentValidation;
-using MediatR;
 using MicroElements.Swashbuckle.FluentValidation;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 
 namespace Api.Configurations;
 
@@ -19,7 +16,7 @@ public static class ApiConfigure
         ArgumentNullException.ThrowIfNull(services, nameof(services));
 
         services.AddScoped<IAuthInfoProvider, AuthInfoProvider>();
-
+        
         services.AddControllers();
         services.AddHttpContextAccessor();
         services.AddEndpointsApiExplorer();
@@ -47,21 +44,8 @@ public static class ApiConfigure
             opt.SchemaFilter<FluentValidationRulesScopeAdapter>(ServiceLifetime.Scoped);
             opt.OperationFilter<FluentValidationOperationFilterScopeAdapter>(ServiceLifetime.Scoped);
         });
-
-        /*services.AddQuartz(quartz =>
-        {
-            quartz.AddJob<TaskCreationLongRunningJob>(job => job.WithIdentity(nameof(TaskCreationLongRunningJob)));
-            quartz.AddTrigger(trigger => trigger.WithIdentity(nameof(TaskCreationLongRunningJob))
-                .ForJob(nameof(TaskCreationLongRunningJob))
-                .StartNow()
-                .WithDescription($"{nameof(TaskCreationLongRunningJob)} trigger"));
-        });
-
-        services.AddQuartzHostedService
-        (
-            opt => { opt.WaitForJobsToComplete = false; }
-        );
-        */
+        
+        services.AddFluentValidationRulesToSwagger();
     }
 
     public static void UseSwaggerSetup(this IApplicationBuilder app)

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Domain.Interfaces;
+﻿using Domain.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Team8.Contracts.Auth.Service;

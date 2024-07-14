@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Grpc.Core;
+using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Common.Behaviors;
@@ -20,11 +21,21 @@ public class UnhandledExceptionBehavior<TRequest, TResponse> : IPipelineBehavior
         {
             return await next();
         }
-        catch(Exception ex)
+        catch (RpcException ex)
         {
             string requestName = typeof(TRequest).Name;
+            var uu = request.ToString();
 
-            _logger.LogError(ex, "Request: Unhandled Exception for Request {Name} {@Request}", requestName, request);
+            _logger.LogError(ex, "Status code: {@StatusCode} Message: {@Detail} Request: Unhandled Exception for Request {Name} {@Request}", ex.Status.StatusCode, ex.Status.Detail, requestName, uu);
+
+            throw;
+        }
+        catch (Exception ex)
+        {
+            string requestName = typeof(TRequest).Name;
+            var uu = request.ToString();
+
+            _logger.LogError(ex, "Request: Unhandled Exception for Request {@Request}", requestName, uu);
 
             throw;
         }

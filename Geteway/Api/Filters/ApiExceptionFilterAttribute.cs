@@ -1,4 +1,6 @@
-using Application.Common.Exceptions;
+using Domain.Common;
+using Domain.Common.Exceptions;
+using Grpc.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -17,6 +19,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
             , { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException }
             , { typeof(ForbiddenAccessException), HandleForbiddenAccessException }
             , { typeof(BadRequestException), HandleBadRequestException }
+            , { typeof(RpcException), HandleGrpcException }
         };
     }
 
@@ -118,5 +121,29 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.Result = new ObjectResult(details) { StatusCode = StatusCodes.Status400BadRequest };
 
         context.ExceptionHandled = true;
+    }
+
+    private void HandleGrpcException(ExceptionContext context)
+    {
+        RpcException ex = (RpcException)context.Exception;
+
+        ProblemDetails details = new()
+        {
+            Status = StatusCodes.Status502BadGateway, Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1", Detail = ex.Message
+        };
+
+        if(context.HttpContext.WebSockets.IsWebSocketRequest)
+        {
+            if(Instances.Connections.Connection(context.HttpContext) is {} socket)
+                socket.SendMessageAsync(details, CancellationToken.None).Wait();
+        }
+        else
+        {
+            context.Result = new ObjectResult(details) { StatusCode = StatusCodes.Status502BadGateway };
+            
+
+
+            context.ExceptionHandled = true;
+        }
     }
 }

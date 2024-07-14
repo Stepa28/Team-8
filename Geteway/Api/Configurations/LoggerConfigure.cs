@@ -6,11 +6,6 @@ public static class LoggerConfigure
 {
     public static Serilog.ILogger AddLogger(this WebApplicationBuilder builder)
     {
-        Log.Information("Starting up");
-
-        builder.Host.UseLogging();
-        builder.LogStartUp();
-        
         builder.Logging.ClearProviders();
 
         return new LoggerConfiguration()
@@ -33,8 +28,9 @@ public static class LoggerConfigure
     
     public static WebApplicationBuilder LogStartUp(this WebApplicationBuilder builder)
     {
+        Log.Information("Starting up");
         string env = builder.Environment.EnvironmentName;
-        Log.Logger.Information($"Environment ASPNETCORE_ENVIRONMENT: {env}");
+        Log.Information($"Environment ASPNETCORE_ENVIRONMENT: {env}");
 
         return builder;
     }

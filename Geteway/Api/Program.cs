@@ -6,6 +6,8 @@ try
     var builder = WebApplication.CreateBuilder(args);
     
     Log.Logger = builder.AddLogger().ForContext<Program>();
+    builder.Host.UseLogging();
+    builder.LogStartUp();
     
     builder.Services.AddApiService();
     builder.Services.AddServices(builder.Configuration);

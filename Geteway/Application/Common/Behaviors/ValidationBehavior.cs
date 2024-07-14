@@ -2,7 +2,7 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using ValidationException = Application.Common.Exceptions.ValidationException;
+using ValidationException = Domain.Common.Exceptions.ValidationException;
 
 namespace Application.Common.Behaviors;
 
