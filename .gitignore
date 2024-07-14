@@ -742,3 +742,4 @@ obj/
 # Additional files built by Visual Studio
 
 rabbitmq/
+/*/*.bat

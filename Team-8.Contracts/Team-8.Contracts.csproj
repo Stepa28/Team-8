@@ -5,11 +5,11 @@
     <RootNamespace>Team_8.Contracts</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-	<Version>1.0.1.3</Version>
+	<VersionPrefix>1.0.1.7</VersionPrefix>
 	<PackageIcon>1684410334_polinka-top-p-znak-beskonechnosti-kartinki-krasivie-inst-63.jpg</PackageIcon>
 	<RepositoryUrl>https://github.com/Stepa28/Team-8</RepositoryUrl>
 	<RepositoryType>git</RepositoryType>
+	<Version>1.0.1.8</Version>
   </PropertyGroup>
 
   <ItemGroup>

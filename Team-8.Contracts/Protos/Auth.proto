@@ -7,6 +7,7 @@ package Auth;
 service AuthService {
   rpc Login (LoginModel) returns (Token);
   rpc Register (RegisterModel) returns (UUID);
+  rpc ValidateToken (Token) returns (UserModel);
 }
 
 message LoginModel {
@@ -28,4 +29,9 @@ message UUID {
   string value = 1;
 }
 
-
+message UserModel {
+  UUID id = 1;
+  string login = 2;
+  string nick = 3;
+  int32 role = 4;
+}
