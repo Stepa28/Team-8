@@ -1,8 +1,15 @@
-version: '3.4'
-
 services:
-  api:
-    image: ${DOCKER_REGISTRY-}api
+  gateway:
+    image: ${DOCKER_REGISTRY-}gateway
     build:
       context: .
       dockerfile: Api/Dockerfile
+    networks:
+      - def
+    volumes:
+      - c:\Project\Team-8\logs\:/home/app/logs/
+
+networks:
+  def:
+    external: true
+    name: Team8-network
