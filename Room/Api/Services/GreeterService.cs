@@ -1,9 +1,8 @@
-using Api;
 using Grpc.Core;
 
 namespace Api.Services
 {
-    public class GreeterService : Greeter.GreeterBase
+    /*public class GreeterService : Greeter.GreeterBase
     {
         private readonly ILogger<GreeterService> _logger;
         public GreeterService(ILogger<GreeterService> logger)
@@ -18,5 +17,5 @@ namespace Api.Services
                 Message = "Hello " + request.Name
             });
         }
-    }
+    }*/
 }
