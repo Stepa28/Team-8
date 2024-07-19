@@ -1,5 +1,5 @@
 ﻿using Domain.Common;
-using Domain.Enums;
+using Team_8.Contracts.Enums;
 
 namespace Domain.Models;
 

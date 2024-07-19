@@ -1,4 +1,4 @@
-﻿namespace Domain.Enums;
+﻿namespace Team_8.Contracts.Enums;
 
 public enum UltimateType
 {
