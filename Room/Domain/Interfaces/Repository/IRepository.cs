@@ -2,9 +2,9 @@
 
 public interface IRepository<T> where T : class
 {
-    Task<T> Get(int id, CancellationToken token = default);
-    Task<List<T>> GetList(CancellationToken token = default);
-    Task<bool> Update(T entity, CancellationToken token = default);
-    Task<bool> Delete(int id, CancellationToken token = default);
-    Task Create(T entity, CancellationToken token = default);
+    Task<T> GetAsync(int id, CancellationToken token = default);
+    Task<List<T>> GetListAsync(CancellationToken token = default);
+    Task<bool> UpdateAsync(T entity, CancellationToken token = default);
+    Task<bool> DeleteAsync(int id, CancellationToken token = default);
+    Task CreateAsync(T entity, CancellationToken token = default);
 }

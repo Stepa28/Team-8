@@ -1,4 +1,5 @@
 syntax = "proto3";
+import "google/protobuf/empty.proto";
 
 option csharp_namespace = "Team8.Contracts.Room.Service";
 
@@ -6,11 +7,11 @@ package Room;
 
 service RoomService {
   rpc CreateRoom (CreateRoomModel) returns (RoomId);
-  rpc GetRooms (Void) returns (RoomsModel);
+  rpc GetRooms (google.protobuf.Empty) returns (RoomsModel);
   rpc ConnectRoom (ConnectRoomModel) returns (RoomModel);
-  rpc DisconnectRoom (RoomActionModel) returns (RequestModel);
-  rpc ToggleReadiness (RoomActionModel) returns (RequestModel);
-  rpc StartBattle (RoomActionModel) returns (RequestModel);
+  rpc DisconnectRoom (RoomId) returns (RequestModel);
+  rpc ToggleReadiness (RoomId) returns (RequestModel);
+  rpc StartBattle (RoomId) returns (RequestModel);
 }
 
 message CreateRoomModel {
@@ -35,22 +36,11 @@ message ConnectRoomModel {
   string pass = 2;
 }
 
-message UserModel {
-  string id = 1;
-}
-
 message RoomId {
   int32 id = 1;
 }
 
-message Void {}
-
 message RequestModel{
   bool ok = 1;
   optional string message = 2;
-}
-
-message RoomActionModel {
-    UserModel user = 1;
-    RoomId room = 2;
 }

@@ -88,9 +88,9 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_deleted");
 
-                    b.Property<int>("Status")
+                    b.Property<int>("RoomStatus")
                         .HasColumnType("integer")
-                        .HasColumnName("status");
+                        .HasColumnName("room_status");
 
                     b.Property<string>("Title")
                         .IsRequired()
