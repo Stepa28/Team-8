@@ -1,38 +1,51 @@
-﻿using Grpc.Core;
+﻿using Application.Mediator.Commands.ConnectRoom;
+using Application.Mediator.Commands.CreateBattle;
+using Application.Mediator.Commands.CreateRoom;
+using Application.Mediator.Commands.DisconnectRoom;
+using Application.Mediator.Commands.ToggleReadiness;
+using Application.Mediator.Queries.GetRooms;
+using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
+using MediatR;
 using Team8.Contracts.Room.Server;
-using Void = Team8.Contracts.Room.Server.Void;
 
 namespace Api.Services;
 
-public class RoomServices : RoomService.RoomServiceBase
+public class RoomServices(ISender mediator) : RoomService.RoomServiceBase
 {
-    public override Task<RoomId> CreateRoom(CreateRoomModel request, ServerCallContext context)
+    public override async Task<RoomsModel> GetRooms(Empty request, ServerCallContext context)
     {
-        return base.CreateRoom(request, context);
+        var response = await mediator.Send(new GetRoomsQuery(), context.CancellationToken);
+        return response;
     }
 
-    public override Task<RoomsModel> GetRooms(Void request, ServerCallContext context)
+    public override async Task<Empty> ToggleReadiness(RoomId request, ServerCallContext context)
     {
-        return base.GetRooms(request, context);
+        await mediator.Send(new ToggleReadinessCommand(request), context.CancellationToken);
+        return new Empty();
     }
 
-    public override Task<RoomModel> ConnectRoom(ConnectRoomModel request, ServerCallContext context)
+    public override async Task<Empty> StartBattle(RoomId request, ServerCallContext context)
     {
-        return base.ConnectRoom(request, context);
+        await mediator.Send(new CreateBattleCommand(request), context.CancellationToken);
+        return new Empty();
     }
 
-    public override Task<RequestModel> DisconnectRoom(RoomActionModel request, ServerCallContext context)
+    public override async Task<RoomId> CreateRoom(CreateRoomModel request, ServerCallContext context)
     {
-        return base.DisconnectRoom(request, context);
+        var response = await mediator.Send(new CreateRoomCommand(request), context.CancellationToken);
+        return response;
     }
 
-    public override Task<RequestModel> ToggleReadiness(RoomActionModel request, ServerCallContext context)
+    public override async Task<RoomModel> ConnectRoom(ConnectRoomModel request, ServerCallContext context)
     {
-        return base.ToggleReadiness(request, context);
+        var response = await mediator.Send(new ConnectRoomCommand(request), context.CancellationToken);
+        return response;
     }
 
-    public override Task<RequestModel> StartBattle(RoomActionModel request, ServerCallContext context)
+    public override async Task<Empty> DisconnectRoom(RoomId request, ServerCallContext context)
     {
-        return base.StartBattle(request, context);
+        await mediator.Send(new DisconnectRoomCommand(request), context.CancellationToken);
+        return new Empty();
     }
 }

@@ -22,7 +22,7 @@
       <PackageReference Include="Serilog" Version="4.0.0" />
       <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
       <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
-      <PackageReference Include="Team-8.Contracts" Version="1.0.1.12" />
+      <PackageReference Include="Team-8.Contracts" Version="1.0.1.14" />
     </ItemGroup>
 
 </Project>

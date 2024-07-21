@@ -4,5 +4,6 @@ public enum RoomStatus
 {
     None
     , Created
+    , InBattle
     , Completed
 }

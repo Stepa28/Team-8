@@ -9,9 +9,9 @@ service RoomService {
   rpc CreateRoom (CreateRoomModel) returns (RoomId);
   rpc GetRooms (google.protobuf.Empty) returns (RoomsModel);
   rpc ConnectRoom (ConnectRoomModel) returns (RoomModel);
-  rpc DisconnectRoom (RoomId) returns (RequestModel);
-  rpc ToggleReadiness (RoomId) returns (RequestModel);
-  rpc StartBattle (RoomId) returns (RequestModel);
+  rpc DisconnectRoom (RoomId) returns (google.protobuf.Empty);
+  rpc ToggleReadiness (RoomId) returns (google.protobuf.Empty);
+  rpc StartBattle (RoomId) returns (google.protobuf.Empty);
 }
 
 message CreateRoomModel {
@@ -38,9 +38,4 @@ message ConnectRoomModel {
 
 message RoomId {
   int32 id = 1;
-}
-
-message RequestModel{
-  bool ok = 1;
-  optional string message = 2;
 }

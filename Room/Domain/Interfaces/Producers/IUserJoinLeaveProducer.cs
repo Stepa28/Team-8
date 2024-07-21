@@ -4,5 +4,5 @@ namespace Domain.Interfaces.Producers;
 
 public interface IUserJoinLeaveProducer
 {
-    Task CreateBattle(UserJoinLeaveDto userDto, CancellationToken stoppingToken);
+    Task PushUserJoinLeave(UserJoinLeaveDto userDto, CancellationToken stoppingToken = default);
 }

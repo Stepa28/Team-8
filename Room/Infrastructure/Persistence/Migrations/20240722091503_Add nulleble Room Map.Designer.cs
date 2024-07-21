@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240722091503_Add nulleble Room Map")]
+    partial class AddnullebleRoomMap
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,7 +196,7 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("room_id");
 
-                    b.Property<int?>("UnitTypeId")
+                    b.Property<int>("UnitTypeId")
                         .HasColumnType("integer")
                         .HasColumnName("unit_type_id");
 
@@ -238,6 +241,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasOne("Domain.Models.UnitType", "UnitType")
                         .WithMany("UserStates")
                         .HasForeignKey("UnitTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("fk_user_states_unit_types_unit_type_id");
 
                     b.HasOne("Domain.Models.User", "User")

@@ -9,6 +9,7 @@ public record Map : BaseEntitySoftDelete<Map>
     public List<TitleType> TitleType { get; set; }
     public int CountRow { get; set; }
     public int CountColumn { get; set; }
+    public virtual List<Room> Rooms { get; set; } = [];
 
     public override void Update(Map entity)
     {

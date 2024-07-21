@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240720151230_Refactor room")]
+    partial class Refactorroom
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,7 +74,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CurrentMapId")
+                    b.Property<int>("CurrentMapId")
                         .HasColumnType("integer")
                         .HasColumnName("current_map_id");
 
@@ -193,7 +196,7 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("room_id");
 
-                    b.Property<int?>("UnitTypeId")
+                    b.Property<int>("UnitTypeId")
                         .HasColumnType("integer")
                         .HasColumnName("unit_type_id");
 
@@ -219,8 +222,10 @@ namespace Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Domain.Models.Room", b =>
                 {
                     b.HasOne("Domain.Models.Map", "CurrentMap")
-                        .WithMany("Rooms")
+                        .WithMany()
                         .HasForeignKey("CurrentMapId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("fk_rooms_maps_current_map_id");
 
                     b.Navigation("CurrentMap");
@@ -229,19 +234,21 @@ namespace Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Domain.Models.UserState", b =>
                 {
                     b.HasOne("Domain.Models.Room", "Room")
-                        .WithMany("UserStates")
+                        .WithMany()
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_states_rooms_room_id");
 
                     b.HasOne("Domain.Models.UnitType", "UnitType")
-                        .WithMany("UserStates")
+                        .WithMany()
                         .HasForeignKey("UnitTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("fk_user_states_unit_types_unit_type_id");
 
                     b.HasOne("Domain.Models.User", "User")
-                        .WithMany("UserStates")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
@@ -252,26 +259,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("UnitType");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Domain.Models.Map", b =>
-                {
-                    b.Navigation("Rooms");
-                });
-
-            modelBuilder.Entity("Domain.Models.Room", b =>
-                {
-                    b.Navigation("UserStates");
-                });
-
-            modelBuilder.Entity("Domain.Models.UnitType", b =>
-                {
-                    b.Navigation("UserStates");
-                });
-
-            modelBuilder.Entity("Domain.Models.User", b =>
-                {
-                    b.Navigation("UserStates");
                 });
 #pragma warning restore 612, 618
         }

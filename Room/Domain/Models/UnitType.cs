@@ -12,6 +12,7 @@ public record UnitType : BaseEntitySoftDelete<UnitType>
     public byte Armor { get; set; }
     public UltimateType Ultimate { get; set; }
     public byte MovmentSpead { get; set; }
+    public virtual List<UserState> UserStates { get; set; } = [];
 
     public override void Update(UnitType entity)
     {

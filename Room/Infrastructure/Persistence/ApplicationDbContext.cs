@@ -1,5 +1,4 @@
-﻿using Domain.Enums;
-using Domain.Interfaces;
+﻿using Domain.Interfaces;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,24 +25,24 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Room> Rooms => Set<Room>();
     public DbSet<UnitType> UnitTypes => Set<UnitType>();
     public DbSet<UserState> UserStates => Set<UserState>();
+    
+     public DbSet<T>? GetTable<T>() where T : class
+        {
+            var type = typeof(T);
+            
+            if(type == typeof(User))
+                return Users as DbSet<T>;
+            if(type == typeof(Map))
+                return Maps as DbSet<T>;
+            if(type == typeof(Room))
+                return Rooms as DbSet<T>;
+            if(type == typeof(UnitType))
+                return UnitTypes as DbSet<T>;
+            if(type == typeof(UserState))
+                return UserStates as DbSet<T>;
+            
+            return null;
+        }
 
     #endregion
-
-    public DbSet<T>? GetTable<T>() where T : class
-    {
-        var type = typeof(T);
-        
-        if(type == typeof(User))
-            return Users as DbSet<T>;
-        if(type == typeof(Map))
-            return Maps as DbSet<T>;
-        if(type == typeof(Room))
-            return Rooms as DbSet<T>;
-        if(type == typeof(UnitType))
-            return UnitTypes as DbSet<T>;
-        if(type == typeof(UserState))
-            return UserStates as DbSet<T>;
-        
-        return null;
-    }
 }

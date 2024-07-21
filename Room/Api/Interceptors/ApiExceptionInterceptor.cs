@@ -5,38 +5,31 @@ using Grpc.Core.Interceptors;
 
 namespace Api.Interceptors;
 
-public class ApiExceptionInterceptor : Interceptor
+public class ApiExceptionInterceptor(ILogger<ApiExceptionInterceptor> logger) : Interceptor
 {
-    private readonly IDictionary<Type, Func<Exception, Exception>> _exceptionHandlers;
-    private readonly ILogger<ApiExceptionInterceptor> _logger;
-
-    public ApiExceptionInterceptor(ILogger<ApiExceptionInterceptor> logger)
+    private readonly Dictionary<Type, Func<Exception, Exception>> _exceptionHandlers = new()
     {
-        _logger = logger;
-        _exceptionHandlers = new Dictionary<Type, Func<Exception, Exception>>
-        {
-            { typeof(ValidationException), HandleInvalidArgumentException }
-            , { typeof(NotFoundException), HandleNotFoundException }
-            , { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException }
-            , { typeof(ForbiddenAccessException), HandlePermissionDeniedException }
-            , { typeof(BadRequestException), HandleBadRequestException }
-            , { typeof(JsonException), HandleInvalidArgumentException }
-        };
-    }
-    
+        { typeof(ValidationException), HandleInvalidArgumentException }
+        , { typeof(NotFoundException), HandleNotFoundException }
+        , { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException }
+        , { typeof(ForbiddenAccessException), HandlePermissionDeniedException }
+        , { typeof(BadRequestException), HandleInternalException }
+        , { typeof(JsonException), HandleInvalidArgumentException }
+    };
+
     public override async Task<TResponse> UnaryServerHandler<TRequest, TResponse>(
         TRequest request,
         ServerCallContext context,
         UnaryServerMethod<TRequest, TResponse> continuation)
     {
-        _logger.LogInformation("Starting receiving call. Type/Method: {Type} / {Method}", MethodType.Unary, context.Method);
+        logger.LogInformation("Starting receiving call. Type/Method: {Type} / {Method}", MethodType.Unary, context.Method);
         try
         {
             return await continuation(request, context);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Error thrown by {context.Method}.");
+            logger.LogError(ex, $"Error thrown by {context.Method}.");
             throw HandleException(ex);
         }
     }
@@ -44,12 +37,7 @@ public class ApiExceptionInterceptor : Interceptor
     private Exception HandleException(Exception ex)
     {
         var type = ex.GetType();
-        if(_exceptionHandlers.TryGetValue(type, out var handler))
-        {
-            return handler.Invoke(ex);
-        }
-
-        return ex;
+        return _exceptionHandlers.TryGetValue(type, out var handler) ? handler.Invoke(ex) : ex;
     }
 
     private static Exception HandleInvalidArgumentException(Exception ex)
@@ -72,9 +60,8 @@ public class ApiExceptionInterceptor : Interceptor
         return new RpcException(new Status(StatusCode.PermissionDenied, ex.Message, ex), ex.ToString());
     }
 
-    private static Exception HandleBadRequestException(Exception ex)
+    private static Exception HandleInternalException(Exception ex)
     {
-        //TODO Разобрать как сковертить
-        return new RpcException(new Status(StatusCode.Unauthenticated, ex.Message, ex), ex.ToString());
+        return new RpcException(new Status(StatusCode.Internal, ex.Message, ex), ex.ToString());
     }
 }
