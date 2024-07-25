@@ -38,6 +38,9 @@ internal sealed class CreateBattleCommandHandler(
         if(room.CurrentMapId == null)
             throw new BadRequestException($"У комнаты с Id = {request.Model.Id} не выбрана карта");
 
+        room.RoomStatus = RoomStatus.InBattle;
+        await repository.SaveChangedAsync(cancellationToken);
+        
         var titleDto = mapper.Map<TilesDto>(room.CurrentMap);
         var battleDto = new CreateBattleDto { Id = room.Id, Tileses = titleDto };
         await producer.CreateBattle(battleDto, cancellationToken);

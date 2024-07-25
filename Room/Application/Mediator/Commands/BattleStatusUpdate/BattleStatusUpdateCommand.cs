@@ -19,7 +19,7 @@ internal sealed class BattleStatusUpdateCommandHandler(ILogger<BattleStatusUpdat
             throw new NotFoundException($"Комната с Id = {request.Model.Id} не найдена");
         
         room.CurrentRound = request.Model.RoundCurrent;
-        room.RoomStatus = request.Model.State == BattleState.Finish ? RoomStatus.Completed : RoomStatus.Created;
+        room.RoomStatus = request.Model.State == BattleState.Finish ? RoomStatus.Completed : RoomStatus.InBattle;
         await repository.SaveChangedAsync(cancellationToken);
     }
 }
