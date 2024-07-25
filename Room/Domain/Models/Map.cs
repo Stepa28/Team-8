@@ -6,7 +6,7 @@ namespace Domain.Models;
 public record Map : BaseEntitySoftDelete<Map>
 {
     public string Name { get; set; }
-    public List<TitleType> TitleType { get; set; }
+    public List<TilesType> TilesType { get; set; } = [];
     public int CountRow { get; set; }
     public int CountColumn { get; set; }
     public virtual List<Room> Rooms { get; set; } = [];
@@ -14,7 +14,7 @@ public record Map : BaseEntitySoftDelete<Map>
     public override void Update(Map entity)
     {
         Name = entity.Name;
-        TitleType = entity.TitleType;
+        TilesType = entity.TilesType;
         CountColumn = entity.CountColumn;
         CountRow = entity.CountRow;
     }

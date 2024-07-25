@@ -7,8 +7,8 @@ public class DisconnectRoomCommandMapping : Profile
 {
     public DisconnectRoomCommandMapping()
     {
-        CreateMap<UserJoinLeaveDto, UserDto>()
-            .ForMember(x=>x.Nick, expression => expression.MapFrom(x=>x.UserNick))
-            .ForMember(x=>x.Id, expression => expression.MapFrom(x=>x.UserId));
+        CreateMap<UserDto, UserJoinLeaveDto>()
+            .ForMember(x => x.UserNick, expression => expression.MapFrom(x => x.Nick))
+            .ForMember(x => x.UserId, expression => expression.MapFrom(x => x.Id));
     }
 }

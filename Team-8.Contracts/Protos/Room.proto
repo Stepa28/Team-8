@@ -12,6 +12,8 @@ service RoomService {
   rpc DisconnectRoom (RoomId) returns (google.protobuf.Empty);
   rpc ToggleReadiness (RoomId) returns (google.protobuf.Empty);
   rpc StartBattle (RoomId) returns (google.protobuf.Empty);
+  rpc GetMaps (google.protobuf.Empty) returns (MapsShortModel);
+  rpc ChoseMap (ChoseMapModel) returns (google.protobuf.Empty);
 }
 
 message CreateRoomModel {
@@ -29,6 +31,7 @@ message RoomModel {
   int32 status = 3;
   string nameCurrentMap = 4;
   int32 currentRound = 5;
+  string creatorName = 6;
 }
 
 message ConnectRoomModel {
@@ -38,4 +41,24 @@ message ConnectRoomModel {
 
 message RoomId {
   int32 id = 1;
+}
+
+message MapsShortModel {
+  repeated MapShortModel models = 1;
+}
+
+message ChoseMapModel {
+  RoomId room = 1;
+  MapId map = 2;
+}
+
+message MapId {
+  int32 id = 1;
+}
+
+message MapShortModel {
+  int32 id = 1;
+  string name = 2;
+  int32 row = 3;
+  int32 column = 4;
 }

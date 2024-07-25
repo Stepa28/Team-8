@@ -3,6 +3,6 @@
 public record CreateBattleDto
 {
     public int Id { get; set; }
-    public TitleDto Titles { get; set; }
+    public TilesDto Tileses { get; set; }
     public List<UnitTypeDto> Units { get; set; } = [];
 }

@@ -8,6 +8,6 @@ public class GetRoomsQueryMapping : Profile
 {
     public GetRoomsQueryMapping()
     {
-        CreateMap<RoomsModel, Room>();
+        CreateMap<Room, RoomsModel>();
     }
 }

@@ -8,6 +8,6 @@ public class CreateBattleCommandMapping : Profile
 {
     public CreateBattleCommandMapping()
     {
-        CreateMap<TitleDto, Map>();
+        CreateMap<Map, TilesDto>();
     }
 }

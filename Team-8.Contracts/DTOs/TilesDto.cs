@@ -2,9 +2,9 @@
 
 namespace Team_8.Contracts.DTOs;
 
-public record TitleDto()
+public record TilesDto
 {
-    public List<TitleType> TitleType { get; set; }
+    public List<TilesType> TilesType { get; set; }
     public int CountRow { get; set; }
     public int CountColumn { get; set; }
 };

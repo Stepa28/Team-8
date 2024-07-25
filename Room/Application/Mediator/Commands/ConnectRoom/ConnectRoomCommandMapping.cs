@@ -9,11 +9,12 @@ public class ConnectRoomCommandMapping : Profile
 {
     public ConnectRoomCommandMapping()
     {
-        CreateMap<UserJoinLeaveDto, UserDto>()
-            .ForMember(x => x.Nick, expression => expression.MapFrom(x => x.UserNick))
-            .ForMember(x => x.Id, expression => expression.MapFrom(x => x.UserId));
+        CreateMap<UserDto, UserJoinLeaveDto>()
+            .ForMember(x => x.UserNick, expression => expression.MapFrom(x => x.Nick))
+            .ForMember(x => x.UserId, expression => expression.MapFrom(x => x.Id));
 
-        CreateMap<RoomModel, Room>()
-            .ForMember(x => (x.CurrentMap ?? new Map { Name = "" }).Name, expression => expression.MapFrom(y => y.NameCurrentMap));
+        CreateMap<Room, ConnectRoomCommandModel>()
+            .ForMember(x => x.NameCurrentMap, expression => expression.MapFrom(y => (y.CurrentMap ?? new Map { Name = "" }).Name));
+        CreateMap<ConnectRoomCommandModel, RoomModel>();
     }
 }

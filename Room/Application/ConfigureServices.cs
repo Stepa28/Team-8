@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
 using Application.Common.Behaviors;
+using Application.Services;
+using Domain.Interfaces;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +16,7 @@ public static class ConfigureServices
 
         services.AddAutoMapper(executionAssembly);
         services.AddValidatorsFromAssembly(executionAssembly);
+        services.AddScoped<IMessageService, MessageService>();
         
         services.AddMediatR(cfg =>
         {

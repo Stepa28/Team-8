@@ -11,7 +11,7 @@ service AuthService {
 }
 
 message LoginModel {
-  string login = 1;
+  string email = 1;
   string password = 2;
 }
 
@@ -20,7 +20,7 @@ message Token {
 }
 
 message RegisterModel{
-  string login = 1;
+  string email = 1;
   string password = 2;
   string nick = 3;
 }
@@ -31,7 +31,7 @@ message UUID {
 
 message UserModel {
   UUID id = 1;
-  string login = 2;
+  string email = 2;
   string nick = 3;
   int32 role = 4;
 }

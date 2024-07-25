@@ -4,7 +4,7 @@ namespace Domain.Interfaces;
 
 public interface IMessageService
 {
-    void ProcessBattleStatusMessage(BattleStatusDto dto, CancellationToken cancellationToken = default);
-    void ProcessUserAddMessage(UserShortDto dto, CancellationToken cancellationToken = default);
-    void ProcessUserDeleteMessage(UserShortDto dto, CancellationToken cancellationToken = default);
+    Task ProcessBattleStatusMessage(BattleStatusDto dto, CancellationToken cancellationToken = default);
+    Task ProcessUserAddMessage(UserShortDto dto, CancellationToken cancellationToken = default);
+    Task ProcessUserDeleteMessage(UserShortDto dto, CancellationToken cancellationToken = default);
 }

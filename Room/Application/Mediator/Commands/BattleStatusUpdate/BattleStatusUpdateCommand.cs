@@ -8,11 +8,11 @@ using Team_8.Contracts.Enums;
 
 namespace Application.Mediator.Commands.BattleStatusUpdate;
 
-public sealed record BattleStatusUpdate(BattleStatusDto Model) : IRequest;
+public sealed record BattleStatusUpdateCommand(BattleStatusDto Model) : IRequest;
 
-internal sealed class BattleStatusUpdateHandler(ILogger<BattleStatusUpdateHandler> logger, IRepository<Room> repository) : IRequestHandler<BattleStatusUpdate>
+internal sealed class BattleStatusUpdateCommandHandler(ILogger<BattleStatusUpdateCommandHandler> logger, IRepository<Room> repository) : IRequestHandler<BattleStatusUpdateCommand>
 {
-    public async Task Handle(BattleStatusUpdate request, CancellationToken cancellationToken)
+    public async Task Handle(BattleStatusUpdateCommand request, CancellationToken cancellationToken)
     {
         var room = await repository.GetAsync(request.Model.Id, cancellationToken);
         if(room == null)

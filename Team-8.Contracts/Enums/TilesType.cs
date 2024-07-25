@@ -1,6 +1,6 @@
 ﻿namespace Team_8.Contracts.Enums;
 
-public enum TitleType
+public enum TilesType
 {
     None = 0
     , Wall = 1

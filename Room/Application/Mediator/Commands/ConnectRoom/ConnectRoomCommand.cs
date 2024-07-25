@@ -47,7 +47,7 @@ internal sealed class ConnectRoomCommandHandler(
         entity.State = UserJoinLeave.Join;
         await producer.PushUserJoinLeave(entity, cancellationToken);
 
-        var res = mapper.Map<RoomModel>(room);
+        var res = mapper.Map<RoomModel>(mapper.Map<CreateRoomModel>(room));
         return res;
     }
 }
