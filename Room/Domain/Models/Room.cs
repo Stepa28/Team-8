@@ -12,6 +12,8 @@ public record Room : BaseEntitySoftDelete<Room>
     public virtual Map? CurrentMap { get; set; }
     public int CurrentRound { get; set; }
     public virtual List<UserState> UserStates { get; set; } = [];
+    public Guid CreatorId { get; set; }
+    public virtual User Creator { get; set; }
 
     public override void Update(Room entity)
     {
