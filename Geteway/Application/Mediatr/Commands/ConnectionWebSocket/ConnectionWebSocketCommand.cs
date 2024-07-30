@@ -29,7 +29,7 @@ internal sealed class ConnectionWebSocketCommandHandler(
             logger.LogDebug("Попытка подключения с токеном {@Token}", token);
             var userModel = await auth.ValidateToken(new Token { Message = token ?? string.Empty }, cancellationToken);
             var user = mapper.Map<UserDto>(userModel);
-            if(user.Id.Equals(Guid.Empty))
+            if(!user.Id.Equals(Guid.Empty))
             {
                 var socket = new WebSocketProvider(await request.Context.WebSockets.AcceptWebSocketAsync(), user, config);
                 connections.AddConnection(request.Context, socket);

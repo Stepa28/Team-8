@@ -13,7 +13,7 @@ internal sealed class GetTokenQueryHandler(ILogger<GetTokenQueryHandler> logger,
     public async Task<TokenModel> Handle(GetTokenQuery request, CancellationToken cancellationToken)
     {
         logger.LogInformation("1 {@email}", request.Email);
-        var token = await auth.LoginAsync(new LoginModel { Login = request.Email.ToLower(), Password = request.Password });
+        var token = await auth.LoginAsync(new LoginModel { Email = request.Email.ToLower(), Password = request.Password }, cancellationToken);
         return new TokenModel { Token = token };
     }
 }

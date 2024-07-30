@@ -8,7 +8,9 @@ namespace Application.Mediatr.Commands.ConsumerWebSocket;
 
 public sealed record ConsumerWebSocketCommand(WebSocketProvider Socket) : IRequest;
 
-internal sealed class ConsumerWebSocketCommandHandler(ILogger<ConsumerWebSocketCommandHandler> logger, IMessageQuery query)
+internal sealed class ConsumerWebSocketCommandHandler(
+    ILogger<ConsumerWebSocketCommandHandler> logger
+    , ISender sender)
     : IRequestHandler<ConsumerWebSocketCommand>
 {
     public async Task Handle(ConsumerWebSocketCommand request, CancellationToken cancellationToken)
@@ -20,7 +22,7 @@ internal sealed class ConsumerWebSocketCommandHandler(ILogger<ConsumerWebSocketC
                 var message = await request.Socket.ReceiveMessageAsync(cancellationToken);
                 logger.LogInformation(message);
                 await request.Socket.SendMessageAsync(message, cancellationToken);
-                query.AddMassage(request.Socket, message);
+                MessageQuery.AddMassage(request.Socket, message, sender);
             }
         }
         catch(SocketCloseConnectException e)

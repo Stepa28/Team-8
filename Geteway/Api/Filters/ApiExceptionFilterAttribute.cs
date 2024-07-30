@@ -134,8 +134,13 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
         if(context.HttpContext.WebSockets.IsWebSocketRequest)
         {
-            if(Instances.Connections.Connection(context.HttpContext) is {} socket)
+            if(Instances.Connections != null && Instances.Connections.Connection(context.HttpContext) is {} socket)
                 socket.SendMessageAsync(details, CancellationToken.None).Wait();
+            else
+            {
+                context.Result = new ObjectResult(details) { StatusCode = StatusCodes.Status502BadGateway };
+                context.ExceptionHandled = true;
+            }
         }
         else
         {

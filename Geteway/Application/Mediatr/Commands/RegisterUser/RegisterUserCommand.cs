@@ -11,7 +11,7 @@ internal sealed class RegisterUserCommandHandler(ILogger<RegisterUserCommandHand
 {
     public async Task<Guid> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
-        var guid = await auth.RegisterAsync(new RegisterModel { Login = request.Email, Nick = request.Nick, Password = request.Password });
+        var guid = await auth.RegisterAsync(new RegisterModel { Email = request.Email, Nick = request.Nick, Password = request.Password }, cancellationToken);
         return guid;
     }
 }
