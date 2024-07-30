@@ -17,7 +17,7 @@ public static class ConfigureServices
         services.AddAutoMapper(executionAssembly);
         services.AddValidatorsFromAssembly(executionAssembly);
         services.AddSingleton<IWebSocketConnections, WebSocketConnections>();
-        services.AddSingleton<IMessageQuery, MessageQuery>();
+        services.AddScoped<IContext, Context>();
 
         services.AddMediatR(cfg =>
         {

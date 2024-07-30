@@ -37,14 +37,14 @@ public class WebSocketProvider(WebSocket webSocket, UserDto user, IConfiguration
         return $"{stringBuilder}";
     }
     
-    public async Task SendMessageAsync<T>(T model, CancellationToken token)
+    public async Task SendMessageAsync<T>(T model, CancellationToken token = default)
     {
         await SendMessageAsync(ModelToJson(model), token);
     }
     
-    public async Task SendMessageAsync(string message, CancellationToken token)
+    public async Task SendMessageAsync(string message, CancellationToken token = default)
     {
-        var bytes = Encoding.ASCII.GetBytes(message);
+        var bytes = Encoding.UTF8.GetBytes(message);
         var arraySegment = new ArraySegment<byte>(bytes);
         await WebSocket.SendAsync
         (
