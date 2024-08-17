@@ -16,6 +16,7 @@ public static class ConfigureServices
         services.Configure<ServiceOptions>(configureOptions => configuration.GetSection(nameof(ServiceOptions)).Bind(configureOptions));
         services.Configure<RabbitMQOptions>(configureOptions => configuration.GetSection(nameof(RabbitMQOptions)).Bind(configureOptions));
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IRoomService, RoomService>();
 
         services.ConfigureGrpcClients(configuration);
         services.AddRabbitMQServices(configuration);
