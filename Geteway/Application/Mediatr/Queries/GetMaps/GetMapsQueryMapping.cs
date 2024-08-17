@@ -1,0 +1,10 @@
+using Riok.Mapperly.Abstractions;
+using Team8.Contracts.Room.Service;
+
+namespace Application.Mediatr.Queries.GetMaps;
+
+[Mapper]
+public static partial class GetMapsQueryMapping
+{
+    public static partial List<GetMapsQueryModel> MapToListGetMapsQueryModel(this IEnumerable<MapShortModel> query);
+}

@@ -12,9 +12,10 @@
 
     <ItemGroup>
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.2" />
-      <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.4-develop.1869" />
-      <PackageReference Include="MediatR" Version="12.3.0" />
-      <PackageReference Include="Serilog" Version="4.0.0" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.4" />
+      <PackageReference Include="MediatR" Version="12.4.0" />
+      <PackageReference Include="Riok.Mapperly" Version="4.0.0-next.3" />
+      <PackageReference Include="Serilog" Version="4.0.1" />
       <PackageReference Include="Team-8.Contracts" Version="1.0.1.17" />
     </ItemGroup>
 

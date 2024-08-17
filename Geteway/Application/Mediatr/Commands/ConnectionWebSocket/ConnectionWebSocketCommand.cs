@@ -1,5 +1,4 @@
 using Application.Mediatr.Commands.ConsumerWebSocket;
-using AutoMapper;
 using Domain.Common;
 using Domain.Common.Exceptions;
 using Domain.Interfaces;
@@ -19,7 +18,6 @@ internal sealed class ConnectionWebSocketCommandHandler(
     , IWebSocketConnections connections
     , IAuthService auth
     , ISender sender
-    , IMapper mapper
     , IConfiguration config) : IRequestHandler<ConnectionWebSocketCommand>
 {
     public async Task Handle(ConnectionWebSocketCommand request, CancellationToken cancellationToken)
@@ -28,7 +26,7 @@ internal sealed class ConnectionWebSocketCommandHandler(
         {
             logger.LogDebug("Попытка подключения с токеном {@Token}", token);
             var userModel = await auth.ValidateToken(new Token { Message = token ?? string.Empty }, cancellationToken);
-            var user = mapper.Map<UserDto>(userModel);
+            var user = userModel.MapToUserDto();
             if(!user.Id.Equals(Guid.Empty))
             {
                 var socket = new WebSocketProvider(await request.Context.WebSockets.AcceptWebSocketAsync(), user, config);
