@@ -1,8 +1,3 @@
 ﻿namespace Team_8.Contracts.DTOs;
 
-public record CreateBattleDto
-{
-    public int Id { get; set; }
-    public TilesDto Tileses { get; set; }
-    public List<UnitTypeDto> Units { get; set; } = [];
-}
+public record CreateBattleDto(int Id, TilesDto Tileses, List<UnitTypeDto> Units);
