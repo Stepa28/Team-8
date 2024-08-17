@@ -14,7 +14,6 @@ public static class ConfigureServices
     {
         Assembly executionAssembly = Assembly.GetExecutingAssembly();
 
-        services.AddAutoMapper(executionAssembly);
         services.AddValidatorsFromAssembly(executionAssembly);
         services.AddSingleton<IWebSocketConnections, WebSocketConnections>();
         services.AddScoped<IContext, Context>();
