@@ -9,8 +9,8 @@ namespace Domain.Common;
 
 public class WebSocketProvider(WebSocket webSocket, UserDto user, IConfiguration conf)
 {
-    public WebSocket WebSocket { get; } = webSocket;
-    public UserDto User { get; } = user;
+    public WebSocket WebSocket => webSocket;
+    public UserDto User => user;
 
     public async Task<string> ReceiveMessageAsync(CancellationToken cancellationToken)
     {

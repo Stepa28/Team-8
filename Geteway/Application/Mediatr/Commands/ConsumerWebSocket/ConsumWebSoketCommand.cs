@@ -1,6 +1,6 @@
-using Application.Common.WebSocket;
 using Domain.Common;
 using Domain.Common.Exceptions;
+using Domain.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -10,19 +10,19 @@ public sealed record ConsumerWebSocketCommand(WebSocketProvider Socket) : IReque
 
 internal sealed class ConsumerWebSocketCommandHandler(
     ILogger<ConsumerWebSocketCommandHandler> logger
-    , ISender sender)
+    , IMessageQuery query)
     : IRequestHandler<ConsumerWebSocketCommand>
 {
     public async Task Handle(ConsumerWebSocketCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            while (true)
+            while (!cancellationToken.IsCancellationRequested)
             {
                 var message = await request.Socket.ReceiveMessageAsync(cancellationToken);
                 logger.LogInformation(message);
                 await request.Socket.SendMessageAsync(message, cancellationToken);
-                MessageQuery.AddMassage(request.Socket, message, sender);
+                query.AddMassage(request.Socket, message);
             }
         }
         catch(SocketCloseConnectException e)

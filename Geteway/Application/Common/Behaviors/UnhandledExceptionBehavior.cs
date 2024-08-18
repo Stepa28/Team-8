@@ -37,6 +37,10 @@ public class UnhandledExceptionBehavior<TRequest, TResponse>(ILogger<TRequest> l
             var uu = request.ToString();
 
             logger.LogError(ex, "Request: Unhandled Exception for Request {@Request} {@ff}", requestName, uu);
+            
+            if(context.SocketProvider != null)
+                await context.SocketProvider.SendMessageAsync(
+                    $"Exception {ex}", cancellationToken);
 
             throw;
         }

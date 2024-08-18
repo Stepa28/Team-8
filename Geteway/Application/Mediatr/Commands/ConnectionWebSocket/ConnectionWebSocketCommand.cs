@@ -6,7 +6,6 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Team_8.Contracts.DTOs;
 using Team8.Contracts.Auth.Service;
 
 namespace Application.Mediatr.Commands.ConnectionWebSocket;
@@ -29,7 +28,8 @@ internal sealed class ConnectionWebSocketCommandHandler(
             var user = userModel.MapToUserDto();
             if(!user.Id.Equals(Guid.Empty))
             {
-                var socket = new WebSocketProvider(await request.Context.WebSockets.AcceptWebSocketAsync(), user, config);
+                var userTmp = user with{ Id = Guid.Parse("bf6a36fd-87a2-49bc-955f-0fafc7712c70") };
+                var socket = new WebSocketProvider(await request.Context.WebSockets.AcceptWebSocketAsync(), userTmp, config);
                 connections.AddConnection(request.Context, socket);
                 await sender.Send(new ConsumerWebSocketCommand(socket), cancellationToken);
                 connections.Remove(socket);

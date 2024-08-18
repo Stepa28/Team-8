@@ -6,5 +6,5 @@ namespace Application.Mediatr.Queries.GetRooms;
 [Mapper]
 public static partial class GetRoomsQueryMapping
 {
-    public static partial List<GetRoomsQueryModel> MapToListGetRoomsQueryModel(this IEnumerable<RoomModel> query);
+    public static partial List<GetRoomQueryModel> MapToListGetRoomsQueryModel(this IEnumerable<RoomModel> query);
 }
