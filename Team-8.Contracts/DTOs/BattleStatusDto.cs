@@ -2,9 +2,4 @@
 
 namespace Team_8.Contracts.DTOs;
 
-public record BattleStatusDto
-{
-    public int Id { get; set; }
-    public int RoundCurrent { get; set; }
-    public BattleState State { get; set; }
-}
+public record BattleStatusDto(int Id, int RoundCurrent, BattleState State);

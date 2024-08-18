@@ -5,11 +5,11 @@ using Microsoft.Extensions.Logging;
 namespace Application.Mediatr.Queries.GetRooms;
 
 internal sealed class GetRoomsQueryHandler(ILogger<GetRoomsQueryHandler> logger, IRoomService service)
-    : IRequestHandler<GetRoomsQuery, List<GetRoomsQueryModel>>
+    : IRequestHandler<GetRoomsQuery, GetRoomsQueryModel>
 {
-    public async Task<List<GetRoomsQueryModel>> Handle(GetRoomsQuery _, CancellationToken cancellationToken)
+    public async Task<GetRoomsQueryModel> Handle(GetRoomsQuery _, CancellationToken cancellationToken)
     {
         var res = await service.GetRooms(cancellationToken);
-        return res.Models.MapToListGetRoomsQueryModel();
+        return new GetRoomsQueryModel(res.Models.MapToListGetRoomsQueryModel());
     }
 }

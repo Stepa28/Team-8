@@ -6,5 +6,5 @@ namespace Application.Mediatr.Queries.GetMaps;
 [Mapper]
 public static partial class GetMapsQueryMapping
 {
-    public static partial List<GetMapsQueryModel> MapToListGetMapsQueryModel(this IEnumerable<MapShortModel> query);
+    public static partial List<GetMapQueryModel> MapToListGetMapsQueryModel(this IEnumerable<MapShortModel> query);
 }

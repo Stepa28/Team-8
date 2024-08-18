@@ -1,44 +1,39 @@
 using System.Collections.Concurrent;
 using Application.Mediatr.Commands.ProcessingReceivedMessages;
 using Domain.Common;
-using Grpc.Core;
+using Domain.Interfaces;
 using MediatR;
-using Serilog;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Team_8.Contracts.ConstStrings;
 
 namespace Application.Common.WebSocket;
 
-public class MessageQuery
+public class MessageQuery : IMessageQuery
 {
     private readonly CancellationTokenSource _cancellationTokenMessageProcessor = new();
     private readonly ConcurrentQueue<(WebSocketProvider socket, string massage)> _messages = new();
-    private readonly ILogger _logger = Log.Logger.ForContext<MessageQuery>();
-    private readonly ISender? _sender;
-    private static MessageQuery? _this;
+    private readonly ILogger<MessageQuery> _logger;
+    private readonly IServiceProvider _serviceProvider;
 
-    public MessageQuery(ISender sender)
+    public MessageQuery(ILogger<MessageQuery> logger, IServiceProvider serviceProvider)
     {
-        _sender ??= sender;
+        _logger = logger;
+        _serviceProvider = serviceProvider;
         StartWebSocketAsync();
     }
 
-    private void AddMassage(WebSocketProvider socket, string massage)
+    public void AddMassage(WebSocketProvider socket, string massage)
     {
         if(massage != MessageConst.HeartbeatMessage)
             _messages.Enqueue((socket, massage));
-    }
-
-    public static void AddMassage(WebSocketProvider socket, string massage, ISender sender)
-    {
-        _this ??= new MessageQuery(sender);
-        _this.AddMassage(socket, massage);
     }
 
     private void StartWebSocketAsync()
     {
         _ = Task.Factory.StartNew(async () =>
         {
-            _logger.Information("Запуск обработчика сообщений: {@name}", nameof(MessageQuery));
+            _logger.LogInformation("Запуск обработчика сообщений: {@name}", nameof(MessageQuery));
             await MessageProcessorAsync();
         }, _cancellationTokenMessageProcessor.Token, TaskCreationOptions.LongRunning, TaskScheduler.Current);
     }
@@ -52,9 +47,10 @@ public class MessageQuery
                 try
                 {
                     var cts = new CancellationTokenSource();
-                    await _sender.Send(new ProcessingReceivedMessagesCommand(message.socket, message.massage), cts.Token);
+                    var sender = _serviceProvider.CreateScope().ServiceProvider.GetRequiredService<ISender>();
+                    await sender.Send(new ProcessingReceivedMessagesCommand(message.socket, message.massage), cts.Token);
                 }
-                catch(RpcException)
+                catch(Exception)
                 {
                     // ignored
                 }
