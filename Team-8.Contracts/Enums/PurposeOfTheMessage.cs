@@ -1,20 +1,43 @@
+using Team_8.Contracts.Common;
+using Team_8.Contracts.UserTransfer;
+
 namespace Team_8.Contracts.Enums;
 
 [Flags]
-public enum PurposeOfTheMessage : ulong
+public enum PurposeOfTheMessage : uint
 {
-    None
-    , CreateRoom = 1 << 1
-    , ConnectRoom = 1 << 2
-    , DisconnectRoom = 1 << 3
-    , ToggleReadiness = 1 << 4
-    , StartBattle = 1 << 5
-    , ChoseMap = 1 << 6
-    , GetMaps = 1 << 7
-    , GetRooms = 1 << 8
-    , NewRoom = 1 << 9
-    , DeleteRoom = 1 << 10
+    None,
 
-    , RoomAction = CreateRoom | ConnectRoom | DisconnectRoom | ToggleReadiness | StartBattle | ChoseMap | GetMaps | GetRooms
-    , UpdateRoom = NewRoom | DeleteRoom
+    [RequestDtoDescription(typeof(CreateRoomDto)), ResponseDtoDescription(typeof(IdDto))]
+    CreateRoom = 1 << 1,
+
+    [RequestDtoDescription(typeof(ConnectRoomDto)), ResponseDtoDescription(typeof(RoomDto))]
+    ConnectRoom = 1 << 2,
+
+    [RequestDtoDescription(typeof(IdDto)), ResponseDtoDescription(typeof(EmptyDto))]
+    DisconnectRoom = 1 << 3,
+
+    [RequestDtoDescription(typeof(IdDto)), ResponseDtoDescription(typeof(EmptyDto))]
+    ToggleReadiness = 1 << 4,
+
+    [RequestDtoDescription(typeof(IdDto)), ResponseDtoDescription(typeof(EmptyDto))]
+    StartBattle = 1 << 5,
+
+    [RequestDtoDescription(typeof(ChoseMapDto)), ResponseDtoDescription(typeof(EmptyDto))]
+    ChoseMap = 1 << 6,
+
+    [RequestDtoDescription(typeof(EmptyDto)), ResponseDtoDescription(typeof(MapsInfoDto))]
+    GetMaps = 1 << 7,
+
+    [RequestDtoDescription(typeof(EmptyDto)), ResponseDtoDescription(typeof(RoomsDto))]
+    GetRooms = 1 << 8,
+
+    [RequestDtoDescription(typeof(EmptyDto)), ResponseDtoDescription(typeof(RoomDto))]
+    NewRoom = 1 << 9,
+
+    [RequestDtoDescription(typeof(EmptyDto)), ResponseDtoDescription(typeof(IdDto))]
+    DeleteRoom = 1 << 10,
+
+    RoomAction = CreateRoom | ConnectRoom | DisconnectRoom | ToggleReadiness | StartBattle | ChoseMap | GetMaps | GetRooms,
+    UpdateRoom = NewRoom | DeleteRoom
 }
