@@ -17,11 +17,11 @@ namespace Application.Mediator.Commands.DisconnectRoom;
 public sealed record DisconnectRoomCommand(RoomId Model) : IRequest;
 
 internal sealed class DisconnectRoomCommandHandler(
-    ILogger<DisconnectRoomCommandHandler> logger
-    , IUserContext userContext
-    , IUserJoinLeaveProducer producer
-    , IRepository<UserState> repository
-    , IMapper mapper)
+    ILogger<DisconnectRoomCommandHandler> logger,
+    IUserContext userContext,
+    IUserJoinLeaveProducer producer,
+    IRepository<UserState> repository,
+    IMapper mapper)
     : IRequestHandler<DisconnectRoomCommand>
 {
     public async Task Handle(DisconnectRoomCommand request, CancellationToken cancellationToken)
@@ -36,9 +36,7 @@ internal sealed class DisconnectRoomCommandHandler(
             throw new NotFoundException("Вы неможите выйте из комноты, в которой не находитесь");
 
         var entity = mapper.Map<UserJoinLeaveDto>(userContext.User);
-        entity.RoomId = request.Model.Id;
-        entity.State = UserJoinLeave.Leave;
-        await producer.PushUserJoinLeave(entity, cancellationToken);
+        await producer.PushUserJoinLeave(entity with { RoomId = request.Model.Id, State = UserJoinLeave.Leave }, cancellationToken);
 
         state.IsDeleted = true;
         await repository.SaveChangedAsync(cancellationToken);

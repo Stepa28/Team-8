@@ -1,9 +1,11 @@
 ﻿using Domain.Common.Exceptions;
 using Domain.Interfaces;
+using Domain.Interfaces.Producers;
 using Domain.Interfaces.Repository;
 using Domain.Models;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Team_8.Contracts.DTOs;
 using Team8.Contracts.Room.Server;
 
 namespace Application.Mediator.Commands.ChoseMap;
@@ -11,10 +13,11 @@ namespace Application.Mediator.Commands.ChoseMap;
 public sealed record ChoseMapCommand(ChoseMapModel Model) : IRequest;
 
 internal sealed class ChoseMapCommandHandler(
-    ILogger<ChoseMapCommandHandler> logger
-    , IRepository<Room> repositoryRoom
-    , IRepository<Map> repositoryMap
-    , IUserContext userContext)
+    ILogger<ChoseMapCommandHandler> logger,
+    IRepository<Room> repositoryRoom,
+    IRepository<Map> repositoryMap,
+    IUserContext userContext,
+    IAddOrUpdateRoomProducer producer)
     : IRequestHandler<ChoseMapCommand>
 {
     public async Task Handle(ChoseMapCommand request, CancellationToken cancellationToken)
@@ -31,5 +34,8 @@ internal sealed class ChoseMapCommandHandler(
 
         room.CurrentMap = map;
         await repositoryRoom.SaveChangedAsync(cancellationToken);
+
+        await producer.PushAddOrUpdateRoom(new RoomInfoDto(room.Id, room.Title, room.RoomStatus, map.Name, room.CurrentRound, userContext.User.Nick),
+            cancellationToken);
     }
 }
