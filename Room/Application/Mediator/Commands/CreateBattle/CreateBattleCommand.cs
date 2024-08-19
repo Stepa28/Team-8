@@ -17,11 +17,14 @@ namespace Application.Mediator.Commands.CreateBattle;
 public sealed record CreateBattleCommand(RoomId Model) : IRequest;
 
 internal sealed class CreateBattleCommandHandler(
-    ILogger<CreateBattleCommandHandler> logger
-    , IUserContext userContext
-    , IRepository<Room> repository
-    , IMapper mapper
-    , ICreateBattleProducer producer)
+    ILogger<CreateBattleCommandHandler> logger,
+    IUserContext userContext,
+    IRepository<Room> repository,
+    IRepository<UserState> userStateRepository,
+    IRepository<Map> mapRepository,
+    IMapper mapper,
+    ICreateBattleProducer producer,
+    IAddOrUpdateRoomProducer roomProducer)
     : IRequestHandler<CreateBattleCommand>
 {
     public async Task Handle(CreateBattleCommand request, CancellationToken cancellationToken)
@@ -29,12 +32,14 @@ internal sealed class CreateBattleCommandHandler(
         var room = await repository.GetAsync(request.Model.Id, cancellationToken);
         if(room == null)
             throw new NotFoundException($"Комнаты с Id({request.Model.Id}) не существует");
-        var states = room.UserStates.Where(x => !x.IsDeleted).ToList();
+        var states = await userStateRepository.GetListAsync(cancellationToken, x => x.RoomId == room.Id && !x.IsDeleted);
 
         if(!states.Select(x => x.UserId).Contains(userContext.User.Id))
             throw new BadRequestException($"Вы не находитесь в комнате с Id {request.Model.Id}");
         if(!states.All(x => x.ReadyForBattle))
             throw new BadRequestException("Не все готовы к сражению");
+        if(!states.All(x => x.UnitTypeId.HasValue))
+            throw new BadRequestException("Не все выбрали тип подпонтрольного объекта");
         if(room.CurrentMapId == null)
             throw new BadRequestException($"У комнаты с Id = {request.Model.Id} не выбрана карта");
         if(!room.CreatorId.Equals(userContext.User.Id))
@@ -44,7 +49,14 @@ internal sealed class CreateBattleCommandHandler(
         await repository.SaveChangedAsync(cancellationToken);
 
         var titleDto = mapper.Map<TilesDto>(room.CurrentMap);
-        var battleDto = new CreateBattleDto { Id = room.Id, Tileses = titleDto };
+        List<UnitTypeDto> unitTypes = [];
+        unitTypes.AddRange(from state in states let dto = mapper.Map<UnitTypeDto>(state.UnitType) select dto with { UserId = state.UserId });
+
+        var battleDto = new CreateBattleDto(room.Id, titleDto, unitTypes);
         await producer.CreateBattle(battleDto, cancellationToken);
+
+        var roomDto = mapper.Map<RoomInfoDto>(room);
+        var map = await mapRepository.GetAsync(x => !x.IsDeleted && x.Id == room.CurrentMapId, cancellationToken);
+        await roomProducer.PushAddOrUpdateRoom(roomDto with { NameCurrentMap = map.Name, CreatorName = userContext.User.Nick }, cancellationToken);
     }
 }

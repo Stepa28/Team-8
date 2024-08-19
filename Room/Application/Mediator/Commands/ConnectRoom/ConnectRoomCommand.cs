@@ -43,9 +43,7 @@ internal sealed class ConnectRoomCommandHandler(
         await repositoryState.CreateAsync(state, cancellationToken);
 
         var entity = mapper.Map<UserJoinLeaveDto>(userContext.User);
-        entity.RoomId = request.Model.Id;
-        entity.State = UserJoinLeave.Join;
-        await producer.PushUserJoinLeave(entity, cancellationToken);
+        await producer.PushUserJoinLeave(entity with { RoomId = request.Model.Id, State = UserJoinLeave.Join }, cancellationToken);
 
         var res = mapper.Map<RoomModel>(mapper.Map<CreateRoomModel>(room));
         return res;

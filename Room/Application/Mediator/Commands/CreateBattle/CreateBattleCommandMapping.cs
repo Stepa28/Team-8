@@ -9,5 +9,7 @@ public class CreateBattleCommandMapping : Profile
     public CreateBattleCommandMapping()
     {
         CreateMap<Map, TilesDto>();
+        CreateMap<UnitType, UnitTypeDto>();
+        CreateMap<Room, RoomInfoDto>();
     }
 }
