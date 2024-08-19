@@ -21,7 +21,6 @@ internal sealed class ConsumerWebSocketCommandHandler(
             {
                 var message = await request.Socket.ReceiveMessageAsync(cancellationToken);
                 logger.LogInformation(message);
-                await request.Socket.SendMessageAsync(message, cancellationToken);
                 query.AddMassage(request.Socket, message);
             }
         }
