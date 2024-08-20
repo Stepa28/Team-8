@@ -2,11 +2,11 @@
 using Domain.Interfaces.Repository;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Team_8.Contracts.DTOs;
+using Team_8.Contracts.MassTransitDto;
 
 namespace Application.Mediator.Commands.DeleteUser;
 
-public sealed record DeleteUserCommand(UserShortDto Model) : IRequest;
+public sealed record DeleteUserCommand(DeleteUserDto Model) : IRequest;
 
 internal sealed class DeleteUserCommandHandler(ILogger<DeleteUserCommandHandler> logger, IUserRepository repository)
     : IRequestHandler<DeleteUserCommand>

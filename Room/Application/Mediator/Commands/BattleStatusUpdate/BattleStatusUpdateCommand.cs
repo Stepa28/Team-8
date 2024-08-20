@@ -5,8 +5,8 @@ using Domain.Interfaces.Repository;
 using Domain.Models;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Team_8.Contracts.DTOs;
 using Team_8.Contracts.Enums;
+using Team_8.Contracts.MassTransitDto;
 
 namespace Application.Mediator.Commands.BattleStatusUpdate;
 
@@ -28,7 +28,9 @@ internal sealed class BattleStatusUpdateCommandHandler(
         room.RoomStatus = request.Model.State == BattleState.Finish ? RoomStatus.Completed : RoomStatus.InBattle;
         await repository.SaveChangedAsync(cancellationToken);
 
-        var roomDto = mapper.Map<RoomInfoDto>(room);
-        await producer.PushAddOrUpdateRoom(roomDto with { NameCurrentMap = room.CurrentMap?.Name ?? "" }, cancellationToken);
+        var roomDto = mapper.Map<AddOrUpdateRoomDto>(room);
+        await producer.PushAddOrUpdateRoom(
+            roomDto with { NameCurrentMap = room.CurrentMap?.Name ?? "", Type = RoomUpdateType.Status | RoomUpdateType.CurrentRound },
+            cancellationToken);
     }
 }

@@ -54,12 +54,12 @@ internal sealed class ProcessingReceivedMessagesCommandHandler(
         {
             PurposeOfTheMessage.CreateRoom when responseModel is CreateRoomCommandModel x => x.MapToIdDto(),
             PurposeOfTheMessage.ConnectRoom when responseModel is ConnectRoomCommandModel x => x.MapToRoomDto(),
-            PurposeOfTheMessage.DisconnectRoom when responseModel is null => new EmptyDto(),
-            PurposeOfTheMessage.ToggleReadiness when responseModel is null => new EmptyDto(),
-            PurposeOfTheMessage.StartBattle when responseModel is null => new EmptyDto(),
-            PurposeOfTheMessage.ChoseMap when responseModel is null => new EmptyDto(),
-            PurposeOfTheMessage.GetMaps when responseModel is GetRoomsQueryModel x => x.MapToRoomsDto(),
-            PurposeOfTheMessage.GetRooms when responseModel is GetMapsQueryModel x => x.MapToMapsInfoDto(),
+            PurposeOfTheMessage.DisconnectRoom when responseModel is Unit => new EmptyDto(),
+            PurposeOfTheMessage.ToggleReadiness when responseModel is Unit => new EmptyDto(),
+            PurposeOfTheMessage.StartBattle when responseModel is Unit => new EmptyDto(),
+            PurposeOfTheMessage.ChoseMap when responseModel is Unit => new EmptyDto(),
+            PurposeOfTheMessage.GetMaps when responseModel is GetMapsQueryModel x => x.MapToMapsInfoDto(),
+            PurposeOfTheMessage.GetRooms when responseModel is GetRoomsQueryModel x => x.MapToRoomsDto(),
             _ => throw new BadRequestException("Не коректный запрос")
         };
 

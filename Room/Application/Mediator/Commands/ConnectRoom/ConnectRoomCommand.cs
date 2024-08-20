@@ -7,8 +7,8 @@ using Domain.Interfaces.Repository;
 using Domain.Models;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Team_8.Contracts.DTOs;
 using Team_8.Contracts.Enums;
+using Team_8.Contracts.MassTransitDto;
 using Team8.Contracts.Room.Server;
 
 namespace Application.Mediator.Commands.ConnectRoom;

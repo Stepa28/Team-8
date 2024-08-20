@@ -4,8 +4,8 @@ using Domain.Interfaces.Repository;
 using Domain.Models;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Team_8.Contracts.DTOs;
 using Team_8.Contracts.Enums;
+using Team_8.Contracts.MassTransitDto;
 using Team8.Contracts.Room.Server;
 
 namespace Application.Mediator.Commands.CreateRoom;
@@ -29,7 +29,7 @@ internal sealed class CreateRoomCommandHandler(
 
         logger.LogInformation("Пользователь с Id {@userId} созда комнату с Id {@roomId}", userContext.User.Id, res);
 
-        var roomDto = new RoomInfoDto(res, room.Title, room.RoomStatus, "", 0, userContext.User.Nick);
+        var roomDto = new AddOrUpdateRoomDto(res, room.Title, room.RoomStatus, "", 0, userContext.User.Nick, RoomUpdateType.Add);
         await producer.PushAddOrUpdateRoom(roomDto, stoppingToken: cancellationToken);
         return new RoomId { Id = res };
     }

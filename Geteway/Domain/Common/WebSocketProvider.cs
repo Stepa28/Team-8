@@ -2,15 +2,17 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
 using Domain.Common.Exceptions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Team_8.Contracts.DTOs;
 
 namespace Domain.Common;
 
-public class WebSocketProvider(WebSocket webSocket, UserDto user, IConfiguration conf)
+public class WebSocketProvider(WebSocket webSocket, UserDto user, IConfiguration conf, HttpContext context)
 {
     public WebSocket WebSocket => webSocket;
     public UserDto User => user;
+    public HttpContext Context => context;
 
     public async Task<string> ReceiveMessageAsync(CancellationToken cancellationToken)
     {

@@ -1,6 +1,7 @@
 using AutoMapper;
 using Domain.Models;
 using Team_8.Contracts.DTOs;
+using Team_8.Contracts.MassTransitDto;
 using Team8.Contracts.Room.Server;
 
 namespace Application.Mediator.Commands.ConnectRoom;
