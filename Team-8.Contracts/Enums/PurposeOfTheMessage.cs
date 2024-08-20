@@ -37,7 +37,10 @@ public enum PurposeOfTheMessage : uint
 
     [RequestDtoDescription(typeof(EmptyDto)), ResponseDtoDescription(typeof(IdDto))]
     DeleteRoom = 1 << 10,
+    
+    [RequestDtoDescription(typeof(EmptyDto)), ResponseDtoDescription(typeof(UpdateRoomDto))]
+    UpdateRoom = 1 << 11,
 
     RoomAction = CreateRoom | ConnectRoom | DisconnectRoom | ToggleReadiness | StartBattle | ChoseMap | GetMaps | GetRooms,
-    UpdateRoom = NewRoom | DeleteRoom
+    UpdateRoomMassage = NewRoom | DeleteRoom | UpdateRoom
 }

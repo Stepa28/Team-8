@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces;
+﻿using System.Net.WebSockets;
+using Domain.Interfaces;
 using Grpc.Core;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -24,7 +25,7 @@ public class UnhandledExceptionBehavior<TRequest, TResponse>(ILogger<TRequest> l
             logger.LogError(ex, "Status code: {@StatusCode} Message: {@Detail} Request: Unhandled Exception for Request {Name} {@Request}"
                 , ex.Status.StatusCode, ex.Status.Detail, requestName, uu);
 
-            if(context.SocketProvider != null)
+            if(context.SocketProvider is { WebSocket.State: WebSocketState.Open })
                 await context.SocketProvider.SendMessageAsync(
                     $"Status code: {ex.Status.StatusCode} Message: {ex.Status.Detail} Request: Unhandled Exception for Request {requestName} {uu}"
                     , cancellationToken);
@@ -38,7 +39,7 @@ public class UnhandledExceptionBehavior<TRequest, TResponse>(ILogger<TRequest> l
 
             logger.LogError(ex, "Request: Unhandled Exception for Request {@Request} {@ff}", requestName, uu);
             
-            if(context.SocketProvider != null)
+            if(context.SocketProvider is { WebSocket.State: WebSocketState.Open })
                 await context.SocketProvider.SendMessageAsync(
                     $"Exception {ex}", cancellationToken);
 

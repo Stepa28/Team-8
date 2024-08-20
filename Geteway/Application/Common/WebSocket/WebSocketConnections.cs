@@ -1,7 +1,6 @@
 using System.Collections.Concurrent;
 using Domain.Common;
 using Domain.Interfaces;
-using MediatR;
 using Microsoft.AspNetCore.Http;
 
 namespace Application.Common.WebSocket;
@@ -10,28 +9,22 @@ public class WebSocketConnections : IWebSocketConnections
 {
     private readonly ConcurrentDictionary<HttpContext, WebSocketProvider> _connectionByContext = new();
     private readonly ConcurrentDictionary<Guid, WebSocketProvider> _connectionByUserId = new();
-    private readonly ConcurrentDictionary<WebSocketProvider, (HttpContext Context, Guid UserId)> _keysConnection = new();
-    private readonly ISender _sender;
 
-    public WebSocketConnections(ISender sender)
+    public WebSocketConnections()
     {
-        _sender = sender;
         Instances.Connections = this;
     }
 
-    public void AddConnection(HttpContext context, WebSocketProvider socket)
+    public void AddConnection(WebSocketProvider socket)
     {
-        _connectionByContext.TryAdd(context, socket);
+        _connectionByContext.TryAdd(socket.Context, socket);
         _connectionByUserId.TryAdd(socket.User.Id, socket);
-        _keysConnection.TryAdd(socket, (context, socket.User.Id));
     }
 
     public void Remove(WebSocketProvider socket)
     {
-        _keysConnection.TryGetValue(socket, out var keys);
-        _connectionByContext.Remove(keys.Context, out _);
-        _connectionByUserId.Remove(keys.UserId, out _);
-        _keysConnection.Remove(socket, out _);
+        _connectionByContext.Remove(socket.Context, out _);
+        _connectionByUserId.Remove(socket.User.Id, out _);
         socket.WebSocket.Dispose();
     }
 
@@ -45,5 +38,10 @@ public class WebSocketConnections : IWebSocketConnections
     {
         _connectionByUserId.TryGetValue(userId, out var value);
         return value;
+    }
+
+    public List<WebSocketProvider> ActiveConnections()
+    {
+        return _connectionByContext.Values.ToList();
     }
 }

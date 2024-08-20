@@ -1,5 +1,6 @@
 using AutoMapper;
 using Team_8.Contracts.DTOs;
+using Team_8.Contracts.MassTransitDto;
 
 namespace Application.Mediator.Commands.DisconnectRoom;
 

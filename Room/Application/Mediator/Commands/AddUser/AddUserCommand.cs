@@ -1,11 +1,11 @@
 ﻿using Domain.Interfaces.Repository;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Team_8.Contracts.DTOs;
+using Team_8.Contracts.MassTransitDto;
 
 namespace Application.Mediator.Commands.AddUser;
 
-public sealed record AddUserCommand(UserShortDto Model) : IRequest;
+public sealed record AddUserCommand(AddUserDto Model) : IRequest;
 
 internal sealed class AddUserCommandHandler(ILogger<AddUserCommandHandler> logger, IUserRepository repository) : IRequestHandler<AddUserCommand>
 {

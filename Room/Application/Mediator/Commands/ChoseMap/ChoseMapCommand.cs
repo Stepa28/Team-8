@@ -5,7 +5,8 @@ using Domain.Interfaces.Repository;
 using Domain.Models;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Team_8.Contracts.DTOs;
+using Team_8.Contracts.Enums;
+using Team_8.Contracts.MassTransitDto;
 using Team8.Contracts.Room.Server;
 
 namespace Application.Mediator.Commands.ChoseMap;
@@ -35,7 +36,8 @@ internal sealed class ChoseMapCommandHandler(
         room.CurrentMap = map;
         await repositoryRoom.SaveChangedAsync(cancellationToken);
 
-        await producer.PushAddOrUpdateRoom(new RoomInfoDto(room.Id, room.Title, room.RoomStatus, map.Name, room.CurrentRound, userContext.User.Nick),
+        await producer.PushAddOrUpdateRoom(
+            new AddOrUpdateRoomDto(room.Id, room.Title, room.RoomStatus, map.Name, room.CurrentRound, userContext.User.Nick, RoomUpdateType.Map),
             cancellationToken);
     }
 }

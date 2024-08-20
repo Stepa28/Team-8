@@ -9,6 +9,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Team_8.Contracts.DTOs;
 using Team_8.Contracts.Enums;
+using Team_8.Contracts.MassTransitDto;
 using Team8.Contracts.Room.Server;
 
 namespace Application.Mediator.Commands.CreateBattle;
@@ -55,8 +56,12 @@ internal sealed class CreateBattleCommandHandler(
         var battleDto = new CreateBattleDto(room.Id, titleDto, unitTypes);
         await producer.CreateBattle(battleDto, cancellationToken);
 
-        var roomDto = mapper.Map<RoomInfoDto>(room);
+        var roomDto = mapper.Map<AddOrUpdateRoomDto>(room);
         var map = await mapRepository.GetAsync(x => !x.IsDeleted && x.Id == room.CurrentMapId, cancellationToken);
-        await roomProducer.PushAddOrUpdateRoom(roomDto with { NameCurrentMap = map.Name, CreatorName = userContext.User.Nick }, cancellationToken);
+        await roomProducer.PushAddOrUpdateRoom(
+            roomDto with
+            {
+                NameCurrentMap = map.Name, CreatorName = userContext.User.Nick, Type = RoomUpdateType.Status | RoomUpdateType.CurrentRound
+            }, cancellationToken);
     }
 }

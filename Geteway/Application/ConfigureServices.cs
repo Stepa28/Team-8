@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Application.Common.Behaviors;
 using Application.Common.WebSocket;
+using Application.Services;
 using Domain.Interfaces;
 using FluentValidation;
 using MediatR;
@@ -17,6 +18,7 @@ public static class ConfigureServices
 
         services.AddValidatorsFromAssembly(executionAssembly);
         services.AddSingleton<IWebSocketConnections, WebSocketConnections>();
+        services.AddScoped<IMessageService, MessageService>();
         services.AddScoped<IContext, Context>();
         services.AddSingleton<IMessageQuery, MessageQuery>(x=>new MessageQuery(x.GetService<ILogger<MessageQuery>>(), x));
 
