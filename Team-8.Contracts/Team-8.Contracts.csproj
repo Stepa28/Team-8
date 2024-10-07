@@ -12,10 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Protos\Server\Auth.proto" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\..\1684410334_polinka-top-p-znak-beskonechnosti-kartinki-krasivie-inst-63.jpg">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -37,6 +33,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="protobuf-net.Grpc" Version="1.1.1" />
   </ItemGroup>
 
 </Project>
