@@ -29,10 +29,18 @@ public class UnitModel
 }
 
 [DataContract]
+public class TilesModel
+{
+    [DataMember(Order = 1)] public List<TilesType> TilesType { get; set; }
+    [DataMember(Order = 2)] public int CountRow { get; set; }
+    [DataMember(Order = 3)] public int CountColumn { get; set; }
+}
+
+[DataContract]
 public class CurrentMapStatusModel
 {
     [DataMember(Order = 1)] public List<UnitModel> Units { get; set; }
-    [DataMember(Order = 2)] public TilesDto Tileses { get; set; }
+    [DataMember(Order = 2)] public TilesModel Tileses { get; set; }
 }
 
 [DataContract]
