@@ -18,7 +18,7 @@ public class BattleService(ISender mediator) : IBattleService
         return Task.CompletedTask;
     }
 
-    public Task<CurrentMapStatusModel> MakeStep(StepModel step, CallContext context = new())
+    public Task MakeStep(StepModel step, CallContext context = new())
     {
         return Task.FromResult(new CurrentMapStatusModel());
     }

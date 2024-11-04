@@ -7,6 +7,12 @@ namespace Application.Mediator.Commands.AddUser;
 
 public sealed record AddUserCommand(AddUserDto Model) : IRequest;
 
+/// <summary>
+/// Обрабатывает команду <see cref="AddUserCommand"/>, добавляя нового пользователя в репозиторий.
+/// </summary>
+/// <param name="request">Инстанс <see cref="AddUserCommand"/>, содержащий данные нового пользователя.</param>
+/// <param name="cancellationToken">Токен отмены, который может использоваться другими объектами или потоками для получения уведомления об отмене.</param>
+/// <returns>Задача, представляющая асинхронную операцию. Результат задачи не содержит значения.</returns>
 internal sealed class AddUserCommandHandler(ILogger<AddUserCommandHandler> logger, IUserRepository repository) : IRequestHandler<AddUserCommand>
 {
     public async Task Handle(AddUserCommand request, CancellationToken cancellationToken)

@@ -2,7 +2,6 @@
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Team_8.Contracts.DTOs;
-using Team_8.Contracts.Enums;
 
 namespace Infrastructure.Persistence;
 

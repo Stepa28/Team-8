@@ -41,6 +41,7 @@ public class CurrentMapStatusModel
 {
     [DataMember(Order = 1)] public List<UnitModel> Units { get; set; }
     [DataMember(Order = 2)] public TilesModel Tileses { get; set; }
+    [DataMember(Order = 3)] public BattleState Status { get; set; }
 }
 
 [DataContract]
@@ -61,5 +62,5 @@ public interface IBattleService
     Task Disconnect(DisconnectBattleModel model, CallContext context = default);
 
     [OperationContract]
-    Task<CurrentMapStatusModel> MakeStep(StepModel step, CallContext context = default);
+    Task MakeStep(StepModel step, CallContext context = default);
 }

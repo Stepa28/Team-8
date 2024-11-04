@@ -20,4 +20,20 @@ public static partial class MakeStepCommandMapping
     [MapProperty(nameof(UnitTypeDto.HP), nameof(CurrentUnitState.Health))]
     [MapProperty(nameof(UnitTypeDto.MovementSpeed), nameof(CurrentUnitState.Speed))]
     public static partial CurrentUnitState MapToCurrentUnitState(this UnitTypeDto query);
+
+    [MapProperty(nameof(Battle.Round), nameof(BattleStateDto.RoundCurrent))]
+    public static partial BattleStatusDto MapToBattleStatusDto(this Battle query);
+    
+    [MapProperty(nameof(Battle.Round), nameof(BattleStateDto.RoundCurrent))]
+    [MapProperty(nameof(Battle.Map), nameof(BattleStateDto.Tiles))]
+    [MapProperty(nameof(Battle.CurrentUnitStates), nameof(BattleStateDto.UnitList), Use = nameof(MapUnits))]
+    public static partial BattleStateDto MapToBattleStateDto(this Battle query);
+    
+    [UserMapping(Default = false)]
+    private static List<CurrentUnitDto> MapUnits(List<CurrentUnitState> units) => units.Select(x => x.MapToCurrentUnitDto()).ToList();
+    
+    [MapProperty(nameof(CurrentUnitState.XCord), nameof(CurrentUnitDto.X))]
+    [MapProperty(nameof(CurrentUnitState.YCord), nameof(CurrentUnitDto.Y))]
+    [MapProperty(nameof(CurrentUnitState.Health), nameof(CurrentUnitDto.Hp))]
+    private static partial CurrentUnitDto MapToCurrentUnitDto(this CurrentUnitState query);
 }

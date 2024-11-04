@@ -2,6 +2,7 @@
 using Domain.Models;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Team_8.Contracts.Enums;
 
 namespace Application.Mediator.Commands;
 
@@ -19,12 +20,14 @@ internal sealed class CreateBattleCommandHandler(
             .Units
             .First()
             .UserId;
-        
+        battle.State = BattleState.InProgress;
+
         await battleRepository.CreateAsync(battle, cancellationToken);
 
-        var currentUnitState = request.Dto
+        var currentUnitState = request
+            .Dto
             .Units
-            .Select(x => x.MapToCurrentUnitState() with { Battle = battle })
+            .Select((t, i) => t.MapToCurrentUnitState() with { Battle = battle, Index = i })
             .ToList();
 
         foreach (var entry in currentUnitState)

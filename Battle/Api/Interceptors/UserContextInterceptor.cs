@@ -1,8 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using Domain.Common.Exceptions;
 using Domain.Interfaces;
-using Domain.Interfaces.Repository;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
 using Team_8.Contracts.ConstStrings;
