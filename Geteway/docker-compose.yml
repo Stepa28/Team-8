@@ -6,8 +6,6 @@ services:
       dockerfile: Api/Dockerfile
     networks:
       - def
-    volumes:
-      - c:\Project\Team-8\logs\:/home/app/logs/
 
 networks:
   def:

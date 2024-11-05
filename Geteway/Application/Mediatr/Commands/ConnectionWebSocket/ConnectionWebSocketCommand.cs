@@ -23,13 +23,12 @@ internal sealed class ConnectionWebSocketCommandHandler(
     {
         if(request.Context.Request.Headers.Authorization.FirstOrDefault() is var token)
         {
-            logger.LogDebug("Попытка подключения с токеном {@Token}", token);
-            var userModel = await auth.ValidateToken(new Token { Message = token ?? string.Empty }, cancellationToken);
+            logger.LogInformation("Попытка подключения с токеном {@Token}", token);
+            var userModel = await auth.ValidateToken(new Token { Message = token?.Split(' ').Last() ?? string.Empty }, cancellationToken);
             var user = userModel.MapToUserDto();
             if(!user.Id.Equals(Guid.Empty))
             {
-                var userTmp = user with{ Id = Guid.Parse("bf6a36fd-87a2-49bc-955f-0fafc7712c70") };
-                var socket = new WebSocketProvider(await request.Context.WebSockets.AcceptWebSocketAsync(), userTmp, config, request.Context);
+                var socket = new WebSocketProvider(await request.Context.WebSockets.AcceptWebSocketAsync(), user, config, request.Context);
                 connections.AddConnection(socket);
                 await sender.Send(new ConsumerWebSocketCommand(socket), cancellationToken);
                 connections.Remove(socket);

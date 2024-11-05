@@ -13,9 +13,9 @@ public class HealthCheckController : BaseController
     [HttpGet("status")]
     public async Task<ActionResult> GetStatus()
     {
-        using var channel = GrpcChannel.ForAddress("http://localhost:50066");
-        var client = channel.CreateGrpcService<IBattleService>();
-        var tt = await client.MakeStep(new StepModel());
+        //using var channel = GrpcChannel.ForAddress("http://localhost:50066");
+        //var client = channel.CreateGrpcService<IBattleService>();
+        //var tt = await client.MakeStep(new StepModel());
         
         var message = $"[{DateTime.Now:T}] Status: Ok!";
         _logger.Information(message);
