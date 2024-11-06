@@ -1,7 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using System.ServiceModel;
 using ProtoBuf.Grpc;
-using Team_8.Contracts.DTOs;
 using Team_8.Contracts.Enums;
 
 namespace Team_8.Contracts.Protos.CodeFirst;

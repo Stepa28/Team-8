@@ -2,6 +2,7 @@
 using Riok.Mapperly.Abstractions;
 using Team_8.Contracts.DTOs;
 using Team_8.Contracts.MassTransitDto;
+using Team_8.Contracts.UserTransfer;
 
 namespace Application.Mediator.Commands.MakeStep;
 
@@ -22,9 +23,11 @@ public static partial class MakeStepCommandMapping
     public static partial CurrentUnitState MapToCurrentUnitState(this UnitTypeDto query);
 
     [MapProperty(nameof(Battle.Round), nameof(BattleStateDto.RoundCurrent))]
+    [MapProperty(nameof(Battle.Id), nameof(BattleStateDto.BattleId))]
     public static partial BattleStatusDto MapToBattleStatusDto(this Battle query);
     
     [MapProperty(nameof(Battle.Round), nameof(BattleStateDto.RoundCurrent))]
+    [MapProperty(nameof(Battle.Id), nameof(BattleStateDto.BattleId))]
     [MapProperty(nameof(Battle.Map), nameof(BattleStateDto.Tiles))]
     [MapProperty(nameof(Battle.CurrentUnitStates), nameof(BattleStateDto.UnitList), Use = nameof(MapUnits))]
     public static partial BattleStateDto MapToBattleStateDto(this Battle query);

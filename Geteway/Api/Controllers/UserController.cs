@@ -1,5 +1,5 @@
-using Application.Mediatr.Commands.RegisterUser;
-using Application.Mediatr.Queries.GetToken;
+using Application.Mediatr.Commands.Auth.RegisterUser;
+using Application.Mediatr.Queries.Auth.GetToken;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 

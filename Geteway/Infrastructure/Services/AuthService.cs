@@ -1,17 +1,18 @@
+using Domain.Common.Configuration;
 using Domain.Interfaces;
 using Infrastructure.Common;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Team8.Contracts.Auth.Service;
 
 namespace Infrastructure.Services;
 
 public class AuthService(
-    Team8.Contracts.Auth.Service.AuthService.AuthServiceClient client
-    , ILogger<AuthService> logger
-    , IContext context
-    , IConfiguration config)
-    : BaseService(context, config), IAuthService
+    Team8.Contracts.Auth.Service.AuthService.AuthServiceClient client,
+    ILogger<AuthService> logger,
+    IContext context,
+    IOptions<GrpsOptions> options)
+    : BaseService(context, options), IAuthService
 {
     public async Task<string> LoginAsync(LoginModel model, CancellationToken cancellationToken = default)
     {

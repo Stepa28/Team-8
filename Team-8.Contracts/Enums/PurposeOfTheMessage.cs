@@ -40,7 +40,20 @@ public enum PurposeOfTheMessage : uint
     
     [RequestDtoDescription(typeof(EmptyDto)), ResponseDtoDescription(typeof(UpdateRoomDto))]
     UpdateRoom = 1 << 11,
+    
+    [RequestDtoDescription(typeof(CurrentMapStatusDto)), ResponseDtoDescription(typeof(IdDto))]
+    ConnectBattle = 1 << 12,
+    
+    [RequestDtoDescription(typeof(EmptyDto)), ResponseDtoDescription(typeof(IdDto))]
+    DisconnectBattle = 1 << 13,
+    
+    [RequestDtoDescription(typeof(EmptyDto)), ResponseDtoDescription(typeof(StepDto))]
+    MakeStep = 1 << 14,
+    
+    [RequestDtoDescription(typeof(BattleStateUpdateDto)), ResponseDtoDescription(typeof(EmptyDto))]
+    StatusUpdate = 1 << 15,
 
     RoomAction = CreateRoom | ConnectRoom | DisconnectRoom | ToggleReadiness | StartBattle | ChoseMap | GetMaps | GetRooms,
-    UpdateRoomMassage = NewRoom | DeleteRoom | UpdateRoom
+    UpdateRoomMassage = NewRoom | DeleteRoom | UpdateRoom,
+    BattleAction = ConnectBattle | DisconnectBattle | MakeStep | StatusUpdate
 }

@@ -10,4 +10,5 @@ public interface IWebSocketConnections
     WebSocketProvider? Connection(HttpContext context);
     WebSocketProvider? Connection(Guid userId);
     List<WebSocketProvider> ActiveConnections();
+    WebSocketProvider? ConnectionsFromUser(Guid id);
 }

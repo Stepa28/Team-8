@@ -1,4 +1,4 @@
-using Application.Mediatr.Commands.ConnectionWebSocket;
+using Application.Mediatr.Commands.WebSocket.Connection;
 using Domain.Common;
 using Microsoft.AspNetCore.Mvc;
 
