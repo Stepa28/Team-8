@@ -1,6 +1,6 @@
+using Domain.Common.Configuration;
 using Domain.Interfaces;
 using gRPC;
-using gRPC.Configuration;
 using Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +13,7 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<ServiceOptions>(configureOptions => configuration.GetSection(nameof(ServiceOptions)).Bind(configureOptions));
+        services.Configure<GrpsOptions>(configureOptions => configuration.GetSection(nameof(GrpsOptions)).Bind(configureOptions));
         services.Configure<RabbitMQOptions>(configureOptions => configuration.GetSection(nameof(RabbitMQOptions)).Bind(configureOptions));
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IRoomService, RoomService>();

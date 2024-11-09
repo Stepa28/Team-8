@@ -2,4 +2,4 @@
 
 namespace Team_8.Contracts.MassTransitDto;
 
-public record CreateBattleDto(int Id, TilesDto Tileses, List<UnitTypeDto> Units);
+public record CreateBattleDto(int Id, TilesDto Tiles, List<UnitTypeDto> Units);

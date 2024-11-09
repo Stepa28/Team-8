@@ -8,12 +8,8 @@
 	<PackageIcon>1684410334_polinka-top-p-znak-beskonechnosti-kartinki-krasivie-inst-63.jpg</PackageIcon>
 	<RepositoryUrl>https://github.com/Stepa28/Team-8</RepositoryUrl>
 	<RepositoryType>git</RepositoryType>
-	<Version>1.0.1.28</Version>
+	<Version>1.0.1.41</Version>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Protos\Server\Auth.proto" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\1684410334_polinka-top-p-znak-beskonechnosti-kartinki-krasivie-inst-63.jpg">
@@ -37,6 +33,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="protobuf-net.Grpc" Version="1.1.1" />
   </ItemGroup>
 
 </Project>

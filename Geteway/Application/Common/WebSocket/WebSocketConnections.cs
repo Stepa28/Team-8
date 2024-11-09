@@ -44,4 +44,10 @@ public class WebSocketConnections : IWebSocketConnections
     {
         return _connectionByContext.Values.ToList();
     }
+
+    public WebSocketProvider? ConnectionsFromUser(Guid id)
+    {
+        _connectionByUserId.TryGetValue(id,  out var result);
+        return result;
+    }
 }

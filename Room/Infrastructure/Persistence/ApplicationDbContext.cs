@@ -9,6 +9,7 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
+        Database.Migrate();
         if(Maps.Any(x => x.Name == "4x4")) return;
         Maps.AddRange([
             new Map

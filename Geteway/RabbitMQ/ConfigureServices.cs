@@ -29,10 +29,10 @@ public static class ConfigureServices
             
             x.UsingRabbitMq((context, cfg) =>
             {
-                cfg.ReceiveEndpoint("Teamplate",
+                cfg.ReceiveEndpoint($"{nameof(BattleStateConsumer)}_{Microservice.Gateway.ToString()}",
                     e =>
                     {
-                        e.ConfigureConsumer<ConsumerTemplate>(context);
+                        e.ConfigureConsumer<BattleStateConsumer>(context);
                     });
                 
                 cfg.ReceiveEndpoint($"{nameof(AddOrUpdateRoomConsumer)}_{Microservice.Gateway.ToString()}",

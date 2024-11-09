@@ -7,11 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Domain\Domain.csproj" />
+        <ProjectReference Include="..\Domain\Domain.csproj"/>
+        <PackageReference Include="EFCore" Version="1.1.2"/>
+        <InternalsVisibleTo Include="Application.Test"/>
     </ItemGroup>
 
-    <ItemGroup>
-      <PackageReference Include="EFCore" Version="1.1.2" />
-    </ItemGroup>
 
 </Project>

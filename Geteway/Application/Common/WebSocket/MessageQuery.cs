@@ -1,5 +1,5 @@
 using System.Collections.Concurrent;
-using Application.Mediatr.Commands.ProcessingReceivedMessages;
+using Application.Mediatr.Commands.WebSocket.ProcessingReceivedMessages;
 using Domain.Common;
 using Domain.Interfaces;
 using MediatR;
