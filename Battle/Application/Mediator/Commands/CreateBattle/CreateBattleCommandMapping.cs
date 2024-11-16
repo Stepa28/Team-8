@@ -3,7 +3,7 @@ using Riok.Mapperly.Abstractions;
 using Team_8.Contracts.DTOs;
 using Team_8.Contracts.MassTransitDto;
 
-namespace Application.Mediator.Commands;
+namespace Application.Mediator.Commands.CreateBattle;
 
 [Mapper]
 public static partial class CreateBattleCommandMapping
@@ -20,4 +20,6 @@ public static partial class CreateBattleCommandMapping
     [MapProperty(nameof(UnitTypeDto.HP), nameof(CurrentUnitState.Health))]
     [MapProperty(nameof(UnitTypeDto.MovementSpeed), nameof(CurrentUnitState.Speed))]
     public static partial CurrentUnitState MapToCurrentUnitState(this UnitTypeDto query);
+
+    public static partial Map MapToMap(this TilesDto query);
 }

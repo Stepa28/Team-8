@@ -40,6 +40,7 @@ public static class ConfigureServices
     private static IServiceCollection AddRepository(this IServiceCollection service)
     {
         service.AddScoped<IRepository<Battle>, BattleRepository>();
+        service.AddScoped<IRepository<Map>, BaseRepository<Map>>();
         service.AddTemplateRepository<CurrentUnitState>();
         return service;
     }

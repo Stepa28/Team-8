@@ -16,5 +16,5 @@ public static partial class ConnectBattleCommandMapping
     public static partial UnitModel MapToUnitModel(this CurrentUnitState query);
     
     
-    public static partial TilesModel MapToTilesModel(this TilesDto query);
+    public static partial TilesModel MapToTilesModel(this Map query);
 }

@@ -1,4 +1,5 @@
 ﻿using Application.Mediator.Commands;
+using Application.Mediator.Commands.CreateBattle;
 using Domain.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;

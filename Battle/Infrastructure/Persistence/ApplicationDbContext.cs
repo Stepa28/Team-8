@@ -17,15 +17,10 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
         optionsBuilder.UseLazyLoadingProxies().UseNpgsql();
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<TilesDto>().HasKey(x => x.TilesType);
-        base.OnModelCreating(modelBuilder);
-    }
-
     #region Tables
 
     public DbSet<Battle> Battles => Set<Battle>();
+    public DbSet<Map> Maps => Set<Map>();
     public DbSet<CurrentUnitState> CurrentUnitStates => Set<CurrentUnitState>();
 
     public DbSet<T>? GetTable<T>() where T : class
@@ -34,6 +29,8 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
 
         if(type == typeof(Battle))
             return Battles as DbSet<T>;
+        if(type == typeof(Map))
+            return Maps as DbSet<T>;
         if(type == typeof(CurrentUnitState))
             return CurrentUnitStates as DbSet<T>;
         return null;

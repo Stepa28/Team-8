@@ -4,16 +4,20 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Team_8.Contracts.Enums;
 
-namespace Application.Mediator.Commands;
+namespace Application.Mediator.Commands.CreateBattle;
 
 internal sealed class CreateBattleCommandHandler(
     IRepository<Battle> battleRepository,
+    IRepository<Map> mapRepository,
     IRepository<CurrentUnitState> currentUnitStateRepository,
     ILogger<CreateBattleCommandHandler> logger
 ) : IRequestHandler<CreateBattleCommand>
 {
     public async Task Handle(CreateBattleCommand request, CancellationToken cancellationToken)
     {
+        var map = request.Dto.Tiles.MapToMap();
+        await mapRepository.CreateAsync(map, cancellationToken);
+        
         var battle = request.Dto.MapToBattle();
         battle.WalkingPlayer = request
             .Dto
@@ -21,6 +25,7 @@ internal sealed class CreateBattleCommandHandler(
             .First()
             .UserId;
         battle.State = BattleState.InProgress;
+        battle.Map = map;
 
         await battleRepository.CreateAsync(battle, cancellationToken);
 

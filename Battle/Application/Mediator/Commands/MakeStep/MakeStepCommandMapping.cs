@@ -22,8 +22,7 @@ public static partial class MakeStepCommandMapping
     [MapProperty(nameof(UnitTypeDto.MovementSpeed), nameof(CurrentUnitState.Speed))]
     public static partial CurrentUnitState MapToCurrentUnitState(this UnitTypeDto query);
 
-    [MapProperty(nameof(Battle.Round), nameof(BattleStateDto.RoundCurrent))]
-    [MapProperty(nameof(Battle.Id), nameof(BattleStateDto.BattleId))]
+    [MapProperty(nameof(Battle.Round), nameof(BattleStatusDto.RoundCurrent))]
     public static partial BattleStatusDto MapToBattleStatusDto(this Battle query);
     
     [MapProperty(nameof(Battle.Round), nameof(BattleStateDto.RoundCurrent))]
