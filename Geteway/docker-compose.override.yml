@@ -1,0 +1,8 @@
+services:
+  gateway:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - ASPNETCORE_HTTP_PORTS=8080
+    ports:
+      - "8080:8080"
+    command: [ "dotnet", "Api.dll", "--no-build", "--additional-deps", "Docker" ]

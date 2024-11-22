@@ -1,0 +1,13 @@
+services:
+  chat:
+    image: ${DOCKER_REGISTRY-}chat
+    build:
+      context: .
+      dockerfile: Api/Dockerfile
+    networks:
+      - def
+
+networks:
+  def:
+    external: true
+    name: Team8-network

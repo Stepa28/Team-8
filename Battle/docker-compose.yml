@@ -1,0 +1,13 @@
+services:
+  battle:
+    image: ${DOCKER_REGISTRY-}battle
+    build:
+      context: .
+      dockerfile: Api/Dockerfile
+    networks:
+      - def
+
+networks:
+  def:
+    external: true
+    name: Team8-network

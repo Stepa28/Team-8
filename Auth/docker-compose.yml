@@ -1,0 +1,13 @@
+services:
+  auth:
+    image: ${DOCKER_REGISTRY-}auth
+    build:
+      context: .
+      dockerfile: Api/Dockerfile
+    networks:
+      - def
+
+networks:
+  def:
+    external: true
+    name: Team8-network

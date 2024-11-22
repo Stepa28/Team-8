@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Team_8.Contracts</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<PackageIcon>1684410334_polinka-top-p-znak-beskonechnosti-kartinki-krasivie-inst-63.jpg</PackageIcon>
+	<RepositoryUrl>https://github.com/Stepa28/Team-8</RepositoryUrl>
+	<RepositoryType>git</RepositoryType>
+	<Version>1.0.1.44</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\1684410334_polinka-top-p-znak-beskonechnosti-kartinki-krasivie-inst-63.jpg">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\Auth.proto" GrpcServices="Client" />
+    <Protobuf Include="Protos\Server\Auth.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\Room.proto" GrpcServices="Client" />
+    <Protobuf Include="Protos\Server\Room.proto" GrpcServices="Server" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.27.2" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.63.0" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.63.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.64.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="protobuf-net.Grpc" Version="1.1.1" />
+  </ItemGroup>
+
+</Project>
