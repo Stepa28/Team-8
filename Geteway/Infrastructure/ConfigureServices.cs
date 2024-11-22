@@ -1,5 +1,6 @@
 using Domain.Common.Configuration;
 using Domain.Interfaces;
+using Domain.Options;
 using gRPC;
 using Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +18,9 @@ public static class ConfigureServices
         services.Configure<RabbitMQOptions>(configureOptions => configuration.GetSection(nameof(RabbitMQOptions)).Bind(configureOptions));
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IRoomService, RoomService>();
+
+        services.AddOptionsWithValidateOnStart<WebSocketOption>()
+            .Bind(configuration.GetSection(WebSocketOption.SectionKey));
 
         services.ConfigureGrpcClients(configuration);
         services.AddRabbitMQServices(configuration);

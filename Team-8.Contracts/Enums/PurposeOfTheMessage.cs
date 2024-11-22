@@ -35,19 +35,19 @@ public enum PurposeOfTheMessage : uint
     [RequestDtoDescription(typeof(EmptyDto)), ResponseDtoDescription(typeof(RoomDto))]
     NewRoom = 1 << 9,
 
-    [RequestDtoDescription(typeof(EmptyDto)), ResponseDtoDescription(typeof(IdDto))]
+    [RequestDtoDescription(typeof(IdDto)), ResponseDtoDescription(typeof(EmptyDto))]
     DeleteRoom = 1 << 10,
     
     [RequestDtoDescription(typeof(EmptyDto)), ResponseDtoDescription(typeof(UpdateRoomDto))]
     UpdateRoom = 1 << 11,
     
-    [RequestDtoDescription(typeof(CurrentMapStatusDto)), ResponseDtoDescription(typeof(IdDto))]
+    [RequestDtoDescription(typeof(IdDto)), ResponseDtoDescription(typeof(CurrentMapStatusDto))]
     ConnectBattle = 1 << 12,
     
-    [RequestDtoDescription(typeof(EmptyDto)), ResponseDtoDescription(typeof(IdDto))]
+    [RequestDtoDescription(typeof(IdDto)), ResponseDtoDescription(typeof(EmptyDto))]
     DisconnectBattle = 1 << 13,
     
-    [RequestDtoDescription(typeof(EmptyDto)), ResponseDtoDescription(typeof(StepDto))]
+    [RequestDtoDescription(typeof(StepDto)), ResponseDtoDescription(typeof(EmptyDto))]
     MakeStep = 1 << 14,
     
     [RequestDtoDescription(typeof(BattleStateUpdateDto)), ResponseDtoDescription(typeof(EmptyDto))]

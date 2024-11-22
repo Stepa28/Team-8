@@ -2,13 +2,14 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
 using Domain.Common.Exceptions;
+using Domain.Options;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Team_8.Contracts.DTOs;
 
 namespace Domain.Common;
 
-public class WebSocketProvider(WebSocket webSocket, UserDto user, IConfiguration conf, HttpContext context)
+public class WebSocketProvider(WebSocket webSocket, UserDto user, IOptionsMonitor<WebSocketOption> option, HttpContext context)
 {
     public WebSocket WebSocket => webSocket;
     public UserDto User => user;
@@ -23,7 +24,7 @@ public class WebSocketProvider(WebSocket webSocket, UserDto user, IConfiguration
         var buffer = new byte[bufferSize];
         var stringBuilder = new StringBuilder();
         var cts = new CancellationTokenSource();
-        cts.CancelAfter(TimeSpan.FromMinutes(int.Parse(conf["NumberOfMinutesOfWebSocketDowntimeCloseTheConnection"] ?? "1")));
+        cts.CancelAfter(TimeSpan.FromMinutes(option.CurrentValue.WebSocketDowntimeClose));
         WebSocketReceiveResult response;
         do
         {

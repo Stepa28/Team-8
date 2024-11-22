@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces;
+﻿using Domain.Common;
+using Domain.Interfaces;
 using Domain.Interfaces.Producers;
 using Domain.Interfaces.Repository;
 using Domain.Models;
@@ -22,9 +23,8 @@ internal sealed class CreateRoomCommandHandler(
 {
     public async Task<RoomId> Handle(CreateRoomCommand request, CancellationToken cancellationToken)
     {
-        //TODO хешировать пароль
         var user = await repositoryUser.GetAsync(userContext.User.Id, cancellationToken);
-        var room = new Room { Title = request.Model.Title, HashPass = request.Model.Pass, RoomStatus = RoomStatus.Created, Creator = user };
+        var room = new Room { Title = request.Model.Title, HashPass = PasswordHash.HashPassword(request.Model.Pass), RoomStatus = RoomStatus.Created, Creator = user };
         var res = await repository.CreateAsync(room, cancellationToken);
 
         logger.LogInformation("Пользователь с Id {@userId} созда комнату с Id {@roomId}", userContext.User.Id, res);

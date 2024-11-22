@@ -1,5 +1,6 @@
 ﻿using Application.Common.Attributes;
 using AutoMapper;
+using Domain.Common;
 using Domain.Common.Exceptions;
 using Domain.Interfaces;
 using Domain.Interfaces.Producers;
@@ -34,18 +35,16 @@ internal sealed class ConnectRoomCommandHandler(
         var user = await repositoryUser.GetAsync(userContext.User.Id, cancellationToken);
         if(user == null)
             throw new NotFoundException("Вас нет в этой БД");
-
-        //TODO нормально проверять пароль
-        if(room.HashPass != request.Model.Pass)
+        
+        if(!PasswordHash.ValidatePassword(request.Model.Pass, room.HashPass))
             throw new ForbiddenAccessException("Пароль неверен");
 
-        var state = new UserState { User = user, Room = room };
+        var state = new UserState { User = user, Room = room, UnitTypeId = 1 };
         await repositoryState.CreateAsync(state, cancellationToken);
+        
+        var entity = new UserJoinLeaveDto(request.Model.Id, userContext.User.Id, userContext.User.Nick, UserJoinLeave.Join);
+        await producer.PushUserJoinLeave(entity, cancellationToken);
 
-        var entity = mapper.Map<UserJoinLeaveDto>(userContext.User);
-        await producer.PushUserJoinLeave(entity with { RoomId = request.Model.Id, State = UserJoinLeave.Join }, cancellationToken);
-
-        var res = mapper.Map<RoomModel>(mapper.Map<CreateRoomModel>(room));
-        return res;
+        return new RoomModel();
     }
 }

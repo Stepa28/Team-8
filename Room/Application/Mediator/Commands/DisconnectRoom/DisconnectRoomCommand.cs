@@ -35,8 +35,8 @@ internal sealed class DisconnectRoomCommandHandler(
         if(state == null)
             throw new NotFoundException("Вы неможите выйте из комноты, в которой не находитесь");
 
-        var entity = mapper.Map<UserJoinLeaveDto>(userContext.User);
-        await producer.PushUserJoinLeave(entity with { RoomId = request.Model.Id, State = UserJoinLeave.Leave }, cancellationToken);
+        var entity = new UserJoinLeaveDto(request.Model.Id, userContext.User.Id, userContext.User.Nick, UserJoinLeave.Leave);
+        await producer.PushUserJoinLeave(entity, cancellationToken);
 
         state.IsDeleted = true;
         await repository.SaveChangedAsync(cancellationToken);

@@ -33,7 +33,7 @@ internal sealed class ProcessingReceivedMessagesCommandHandler(
             { PurposeOfTheMessage.GetRooms, dto => (dto as EmptyDto)?.MapToStartBattleCommand() ?? throw BR },
             { PurposeOfTheMessage.ConnectBattle, dto => (dto as IdDto)?.MapToConnectCommand() ?? throw BR },
             { PurposeOfTheMessage.DisconnectBattle, dto => (dto as IdDto)?.MapToDisconnectCommand() ?? throw BR },
-            { PurposeOfTheMessage.ConnectBattle, dto => (dto as StepDto)?.MapToMakeStepCommand() ?? throw BR }
+            { PurposeOfTheMessage.MakeStep, dto => (dto as StepDto)?.MapToMakeStepCommand() ?? throw BR }
         };
         OutputMappers = new()
         {

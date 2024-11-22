@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Models;
+using Riok.Mapperly.Abstractions;
 using Team_8.Contracts.DTOs;
 using Team_8.Contracts.MassTransitDto;
 
@@ -10,7 +11,5 @@ public class CreateBattleCommandMapping : Profile
     public CreateBattleCommandMapping()
     {
         CreateMap<Map, TilesDto>();
-        CreateMap<UnitType, UnitTypeDto>();
-        CreateMap<Room, AddOrUpdateRoomDto>();
     }
 }

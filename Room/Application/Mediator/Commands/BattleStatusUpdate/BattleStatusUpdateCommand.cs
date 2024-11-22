@@ -15,6 +15,7 @@ public sealed record BattleStatusUpdateCommand(BattleStatusDto Model) : IRequest
 internal sealed class BattleStatusUpdateCommandHandler(
     ILogger<BattleStatusUpdateCommandHandler> logger,
     IRepository<Room> repository,
+    IRepository<Map> mapRepository,
     IAddOrUpdateRoomProducer producer,
     IMapper mapper) : IRequestHandler<BattleStatusUpdateCommand>
 {
@@ -27,10 +28,11 @@ internal sealed class BattleStatusUpdateCommandHandler(
         room.CurrentRound = request.Model.RoundCurrent;
         room.RoomStatus = request.Model.State == BattleState.Finish ? RoomStatus.Completed : RoomStatus.InBattle;
         await repository.SaveChangedAsync(cancellationToken);
-
-        var roomDto = mapper.Map<AddOrUpdateRoomDto>(room);
-        await producer.PushAddOrUpdateRoom(
-            roomDto with { NameCurrentMap = room.CurrentMap?.Name ?? "", Type = RoomUpdateType.Status | RoomUpdateType.CurrentRound },
-            cancellationToken);
+        
+        var map = await mapRepository.GetAsync(x => !x.IsDeleted && x.Id == room.CurrentMapId, cancellationToken);
+        
+        var roomDto = new AddOrUpdateRoomDto(room.Id, room.Title, room.RoomStatus, map.Name, 0, "",
+            RoomUpdateType.Status | RoomUpdateType.CurrentRound);
+        await producer.PushAddOrUpdateRoom(roomDto, cancellationToken);
     }
 }

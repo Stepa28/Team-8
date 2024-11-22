@@ -49,19 +49,18 @@ internal sealed class CreateBattleCommandHandler(
         room.RoomStatus = RoomStatus.InBattle;
         await repository.SaveChangedAsync(cancellationToken);
 
-        var titleDto = mapper.Map<TilesDto>(room.CurrentMap);
+        var tilesDto = mapper.Map<TilesDto>(room.CurrentMap);
+        logger.LogInformation("Плитки {@tiles}", tilesDto);
         List<UnitTypeDto> unitTypes = [];
-        unitTypes.AddRange(from state in states let dto = mapper.Map<UnitTypeDto>(state.UnitType) select dto with { UserId = state.UserId });
+        unitTypes.AddRange(states.Select(state => new UnitTypeDto(state.UserId, state.UnitType.Name, state.UnitType.Damage, state.UnitType.HP,
+            state.UnitType.Armor, state.UnitType.Ultimate, state.UnitType.MovmentSpead)));
 
-        var battleDto = new CreateBattleDto(room.Id, titleDto, unitTypes);
+        var battleDto = new CreateBattleDto(room.Id, tilesDto, unitTypes);
         await producer.CreateBattle(battleDto, cancellationToken);
 
-        var roomDto = mapper.Map<AddOrUpdateRoomDto>(room);
         var map = await mapRepository.GetAsync(x => !x.IsDeleted && x.Id == room.CurrentMapId, cancellationToken);
-        await roomProducer.PushAddOrUpdateRoom(
-            roomDto with
-            {
-                NameCurrentMap = map.Name, CreatorName = userContext.User.Nick, Type = RoomUpdateType.Status | RoomUpdateType.CurrentRound
-            }, cancellationToken);
+        var roomDto = new AddOrUpdateRoomDto(room.Id, room.Title, room.RoomStatus, map.Name, 0, userContext.User.Nick,
+            RoomUpdateType.Status | RoomUpdateType.CurrentRound);
+        await roomProducer.PushAddOrUpdateRoom(roomDto, cancellationToken);
     }
 }

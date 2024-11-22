@@ -24,7 +24,9 @@ internal sealed class ConnectBattleCommandHandler(
 
         var result = new CurrentMapStatusModel
         {
-            Tileses = battle.Map.MapToTilesModel(), Units = battle.CurrentUnitStates.Select(x => x.MapToUnitModel()).ToList()
+            BattleId = battle.Id,
+            Tileses = battle.Map.MapToTilesModel(),
+            Units = battle.CurrentUnitStates.Select(x => x.MapToUnitModel()).ToList()
         };
 
         return result;

@@ -38,9 +38,10 @@ public class TilesModel
 [DataContract]
 public class CurrentMapStatusModel
 {
-    [DataMember(Order = 1)] public List<UnitModel> Units { get; set; }
-    [DataMember(Order = 2)] public TilesModel Tileses { get; set; }
-    [DataMember(Order = 3)] public BattleState Status { get; set; }
+    [DataMember(Order = 1)] public int BattleId { get; set; }
+    [DataMember(Order = 2)] public List<UnitModel> Units { get; set; }
+    [DataMember(Order = 3)] public TilesModel Tileses { get; set; }
+    [DataMember(Order = 4)] public BattleState Status { get; set; }
 }
 
 [DataContract]

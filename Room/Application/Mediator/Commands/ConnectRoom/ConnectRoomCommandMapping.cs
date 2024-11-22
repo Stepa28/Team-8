@@ -10,10 +10,6 @@ public class ConnectRoomCommandMapping : Profile
 {
     public ConnectRoomCommandMapping()
     {
-        CreateMap<UserDto, UserJoinLeaveDto>()
-            .ForMember(x => x.UserNick, expression => expression.MapFrom(x => x.Nick))
-            .ForMember(x => x.UserId, expression => expression.MapFrom(x => x.Id));
-
         CreateMap<Room, ConnectRoomCommandModel>()
             .ForMember(x => x.NameCurrentMap, expression => expression.MapFrom(y => (y.CurrentMap ?? new Map { Name = "" }).Name));
         CreateMap<ConnectRoomCommandModel, RoomModel>();
